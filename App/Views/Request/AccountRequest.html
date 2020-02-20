@@ -1,0 +1,186 @@
+<div class="account-request mt-5">
+    <div class="form-name">
+        <h4>Account Request From</h4>
+
+        {% if logged_user == details.sr_assigned_to and  account_details.rqst_status %}
+            <button>Create</button>
+        {% endif %}
+    </div>
+    <div class="user-side-row">
+        <div class="div3">
+            <h6>User Information</h6>
+        </div>
+        <div class="div1">
+            <h6>Request</h6>
+        </div>
+        <div class="div2">
+            <h6>System Request</h6>
+        </div>
+    </div>
+    <div class="user-side-row"></div>
+</div>
+
+{% for account_details in account_request%}
+
+<div class="user-side-row account-request">
+    <div class="div1">
+        <input type="text" name="" class="group-input" placeholder="I.D No" value="{{ account_details.pet_id }}"
+            readonly>
+    </div>
+    <div class="div1">
+        <input type="text" class="group-input" placeholder="First Name" value="{{ account_details.first_name }}"
+            readonly>
+        <input type="text" class="group-input" placeholder="Middle Initial" value="{{ account_details.middle_initial }}"
+            readonly>
+        <input type="text" class="group-input" placeholder="Last Name" value="{{ account_details.last_name }}" readonly>
+    </div>
+    <div class="div1">
+        <input type="text" class="group-input" placeholder="Department" value="{{ account_details.department }}"
+            readonly>
+    </div>
+    <div class="div1">
+        <div class="site">
+            {% if account_details.request == "Add" %}
+
+            <label class="checked" for="account_add0">Add</label>
+
+            <label class="" for="account_edit0">Edit</label>
+
+            <label class="" for="account_delete0">Delete</label>
+
+            {% endif %}
+
+            {% if account_details.request == "Edit" %}
+
+            <label class="" for="account_add0">Add</label>
+
+            <label class="checked" for="account_edit0">Edit</label>
+
+            <label class="" for="account_delete0">Delete</label>
+
+            {% endif %}
+
+            {% if account_details.request == "Delete" %}
+
+            <label class="" for="account_add0">Add</label>
+
+            <label class="" for="account_edit0">Edit</label>
+
+            <label class="checked" for="account_delete0">Delete</label>
+
+            {% endif %}
+        </div>
+    </div>
+    <div class="div2">
+        <div class="system-request">
+
+            {% set foo = account_details.system_request|split(',') %}
+
+
+            {% if "Windows" in account_details.system_request %}
+            <label class="checked" for="windows0">Windows</label>
+
+            {% else %}
+            <label class="" for="windows0">Windows</label>
+
+            {% endif %}
+
+            {% if "Email" in account_details.system_request %}
+            <label class="checked" for="email0">Email</label>
+
+            {% else %}
+            <label class="" for="email0">Email</label>
+
+            {% endif %}
+
+            {% if "Seine2" in account_details.system_request %}
+            <label class="checked" for="Seine2">Seine2</label>
+
+            {% else %}
+            <label class="" for="Seine2">Seine2</label>
+
+            {% endif %}
+
+            {% if "CMMS" in account_details.system_request %}
+            <label class="checked" for="CMMS">CMMS</label>
+
+            {% else %}
+            <label class="" for="CMMS">CMMS</label>
+
+            {% endif %}
+
+            {% if "OMS" in account_details.system_request %}
+            <label class="checked" for="OMS">OMS</label>
+
+            {% else %}
+            <label class="" for="OMS">OMS</label>
+
+            {% endif %}
+
+            {% if "PNAS" in account_details.system_request %}
+            <label class="checked" for="PNAS">PNAS</label>
+
+            {% else %}
+            <label class="" for="PNAS">PNAS</label>
+
+            {% endif %}
+
+            {% if "DMS" in account_details.system_request %}
+            <label class="checked" for="DMS">DMS</label>
+
+            {% else %}
+            <label class="" for="DMS">DMS</label>
+
+            {% endif %}
+
+            {% if "MDS" in account_details.system_request %}
+            <label class="checked" for="MDS">MDS</label>
+
+            {% else %}
+            <label class="" for="MDS">MDS</label>
+
+            {% endif %}
+
+            {% if "MTF" in account_details.system_request %}
+            <label class="checked" for="MTF">MTF</label>
+
+            {% else %}
+            <label class="" for="MTF">MTF</label>
+
+            {% endif %}
+
+            {% if "TBAC" in account_details.system_request %}
+            <label class="checked" for="TBAC">TBAC</label>
+
+            {% else %}
+            <label class="" for="TBAC">TBAC</label>
+
+            {% endif %}
+            
+            {% if "VCAD" in account_details.system_request %}
+            <label class="checked" for="VCAD">VCAD</label>
+
+            {% else %}
+            <label class="" for="VCAD">VCAD</label>
+
+            {% endif %}
+
+            {% if "WCAD" in account_details.system_request %}
+            <label class="checked" for="WCAD">WCAD</label>
+
+            {% else %}
+            <label class="" for="WCAD">WCAD</label>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if account_details.rqst_status %}
+<div class="user-side-row account-request">
+    <div class="div6">
+       <b>Remarks:</b> {{ account_details.rqst_status }}
+    </div>
+</div>
+{% endif %}
+{% endfor %}

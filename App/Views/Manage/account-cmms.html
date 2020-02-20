@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Account - CMMS{% endblock %}
+
+{% block body %}
+
+<div class="row">
+
+    <div class="col-12 col-lg-12 col-xl-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4>CMMS Account List</h4>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-12 col-lg-6 col-xl-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <form action="" method="post">
+
+                        <div class="form-group">
+                            <label for="employee" class="col-form-label">Employee :</label>
+                            <input type="text" class="form-control" name="emp_name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employee" class="col-form-label">Account :</label>
+                            <input type="text" class="form-control" name="emp_cmms">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-success p-auto">Add</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6 col-xl-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <label for="emp_name" class="col-5 col-form-label text-right">Filter :</label>
+                    <div class="col-4">
+                        <input type="text" name="filter_name" class="form-control mb-2" placeholder="Search . . . ">
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Account
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="email-list">
+
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination page_list justify-content-center pt-3">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+    var id, data, filter_name
+
+    let controllerData = "/manages/cmmsData";
+
+    let controllerPage = "/manages/cmmsPage";
+
+    $(document).ready(function () {
+
+        filter_name = "";
+        id = 1;
+        data = { "id": id, "filter_name": filter_name };
+
+        getAccountData(data)
+        getAccountPage(data)
+
+    });
+
+    $("input[name=filter_name]").on('input', function () {
+        filter_name = $(this);
+
+        clearTimeout(filter_name.data('timeout'));
+
+        filter_name.data('timeout', setTimeout(function () {
+            filter_name = filter_name.val();
+
+            console.log(filter_name);
+            id = 1;
+            data = { "id": id, "filter_name": filter_name };
+            $('.page_list').empty();
+            getAccountData(data)
+            getAccountPage(data)
+        }, 250));
+
+    });
+
+
+    function tbl_info(datas) {
+
+        $('tbody.email-list').empty();
+
+        for (let i = 0; i < datas.length; i++) {
+
+            var myTR = $("<tr ></tr>");
+
+            var accountInfo = {
+                full_name: datas[i]['full_name'],
+                email_account: datas[i]['email_account'],
+                seine2_pet_id: datas[i]['seine2_pet_id'],
+                cmms_pet_id: datas[i]['cmms_pet_id']
+            };
+
+            myTR.append(" <td class='modal-account'>" + accountInfo.full_name +
+                "</td> <td class='modal-account'>" + accountInfo.cmms_pet_id +
+                "</td> <td class='modal-account '><i class='far fa-trash-alt' data-toggle='tooltip' data-placement='bottom' title='Delete Role'></i> <i class='fas fa-edit'></i> " +
+                "</td>");
+
+            $('tbody.email-list').append(myTR);
+        }
+    }
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+
+.Manage-Menu {
+    background-color: #3f72af;
+    color: #dbe2ef;
+    list-style: none;
+    padding: 0;
+    border-radius: 3px;
+}
+
+
+.Manage-Menu a:hover {
+    width: 100%;
+    color: #fff;
+    background-color: #1e518f;
+}
+
+
+.Manage-Menu li a{
+    display: flex;
+    color:  #fff;
+    text-decoration: none;
+    padding-left: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+#AccountSubmenu,
+#RequestSubmenu {
+    list-style: none;
+    background-color:#112d4e;
+    padding: 0;
+}
+
+#AccountSubmenu a,
+#RequestSubmenu a {
+    text-decoration: none;
+
+}
+
+#AccountSubmenu li,
+#RequestSubmenu li {
+    padding: 5px 0;
+    padding-left: 45px;
+}
+
+#AccountSubmenu li:hover,
+#RequestSubmenu li:hover {
+    padding: 5px 0;
+    padding-left: 45px;
+    color: #fff;
+    background-color: #1e518f;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}Manage - Account{% endblock %}
+
+{% block body %}
+
+<div class="row">
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Account</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <h5>Windows</h4>
+                    <h4>
+                        <a href="/manages/windowsaccount">
+                            <span class="badge badge-primary badge-pill">{{ emp_list|length }}</span>
+                        </a>
+                    </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <h5>Email</h4>
+                    <h4>
+                        <a href="/manages/Email">
+                            <span class="badge badge-primary badge-pill"> {{ email_list }} </span>
+                        </a>
+                    </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <h5>CMMS</h4>
+                    <h4>
+                        <a href="/manages/CMMS">
+                            <span class="badge badge-primary badge-pill"> {{ cmms_list }} </span>
+                        </a>
+                    </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <h5>Seine2</h4>
+                    <h4>
+                        <a href="/manages/Seine2">
+                            <span class="badge badge-primary badge-pill"> {{ seine2_list }}</span>
+                        </a>
+                    </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if account_total != 0 %}
+<div class="row">
+
+    <div class="col-12 col-lg-12 col-xl-12 mt-5">
+
+        <div class="card">
+
+            <div class="card-header pt-3">
+                <h4>{{status | title }} List</h4>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                CMMS
+                            </th>
+                            <th>
+                                Seine2
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="account-list">
+
+                        {% for data in account_data%}
+                        <tr>
+                            <td class='modal-account '>
+                                {{ data.full_name}}
+                            </td>
+                            <td class='modal-account '>
+                                {{ data.email_account}}
+                            </td>
+                            <td class='modal-account '>
+                                {{ data.cmms_pet_id}}
+                            </td>
+                            <td class='modal-account '>
+                                {{ data.seine2_pet_id}}
+                            </td>
+
+                            <td class='modal-account '><i class='far fa-trash-alt' data-toggle='tooltip'
+                                    data-placement='bottom' title='Delete Role'></i> <i class='fas fa-edit'></i>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination page_list justify-content-center pt-3">
+                    </ul>
+                </nav>
+            </div>
+            <div class="card-footer ">
+
+                <nav aria-label="Page navigation example">
+
+                    {% set pages = account_total / 10 %}
+
+                    {% set total_pages = pages|round %}
+
+                    {% if total_pages != 0 %}
+                    <ul class="pagination page_list justify-content-center pt-3">
+                        {% if current_page > 1%}
+
+                        {% set prev_page = current_page - 1%}
+
+                        {% if prev_page != 0 %}
+                        <li class='page-item '><a class='page-link'
+                                href="/manages/{{ status |replace({' ': ''}) }}/{{ prev_page }}">Previous</a></li>
+                        {% endif%}
+
+                        {% endif%}
+
+                        {% set range = 2%}
+
+                        {% set prev_pages = current_page - range %}
+
+                        {% if prev_pages == 0 %}
+
+                        {% set prev_pages = prev_pages + 1 %}
+
+                        {% endif%}
+
+                        {% if (prev_pages > 0) or ( prev_pages == 1)  %}
+
+                        {% for page in prev_pages..current_page %}
+
+                        {%if page != current_page %}
+                        <li class='page-item '><a class='page-link'
+                                href="/manages/{{ status |replace({' ': ''}) }}/{{ page }}">{{page}}</a></li>
+
+                        {% endif%}
+                        {% endfor %}
+                        {% endif%}
+
+                        {% for page in 1..total_pages %}
+
+                        {%if page == current_page %}
+                        <li class='page-item disabled'> <b class='page-link bg-success'>{{page}}</b> </li>
+
+                        {% endif%}
+                        {% endfor %}
+
+                        {% set next_pages = current_page + range %}
+
+                        {% if next_pages > total_pages %}
+
+                        {% set next_pages = next_pages - 1 %}
+
+                        {% endif%}
+
+                        {% if (total_pages > next_pages) or (total_pages == next_pages) %}
+                        {% for page in current_page..next_pages %}
+                        {%if page != current_page %}
+                        <li class='page-item '><a class='page-link'
+                                href="/manages/{{ status |replace({' ': ''}) }}/{{ page }}">{{page}}</a></li>
+
+                        {% endif%}
+                        {% endfor %}
+                        {% endif%}
+
+
+
+                        {% if (total_pages > current_page)  %}
+
+                        {% set next_page = current_page + 1%}
+
+                        <li class='page-item '><a class='page-link'
+                                href="/manages/{{ status |replace({' ': ''}) }}/{{ next_page }}">Next</a></li>
+
+                        {% endif%}
+
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+/*
+    var id, data, filter_name
+
+    let controllerData = "/manages/accountData";
+
+    let controllerPage = "/manages/accountPage";
+
+    $(function () {
+
+        //autocomplete
+        $(".emp_name").autocomplete({
+            source: "/account/get-Name",
+            minLength: 2
+        });
+
+    });
+
+    $(document).ready(function () {
+
+        filter_name = "";
+        id = 1;
+        data = { "id": id, "filter_name": filter_name };
+
+        getAccountData(data)
+        getAccountPage(data)
+
+    });
+
+    $("input[name=filter_name]").on('input', function () {
+        filter_name = $(this);
+
+        clearTimeout(filter_name.data('timeout'));
+
+        filter_name.data('timeout', setTimeout(function () {
+            filter_name = filter_name.val();
+
+            console.log(filter_name);
+            id = 1;
+            data = { "id": id, "filter_name": filter_name };
+            $('.page_list').empty();
+            getAccountData(data)
+            getAccountPage(data)
+        }, 250));
+
+    });
+
+    $(document).on('click', '.page-link', function () {
+
+        id = $(this).data('page');
+        data = { "id": id };
+
+        $('.page_list').empty();
+        getAccountData(data)
+        getAccountPage(id)
+
+    });
+
+
+
+    function tbl_info(datas) {
+
+        $('tbody.account-list').empty();
+
+        for (let i = 0; i < datas.length; i++) {
+
+            var myTR = $("<tr ></tr>");
+
+            var accountInfo = {
+                full_name: datas[i]['full_name'],
+                email_account: datas[i]['email_account'],
+                seine2_pet_id: datas[i]['seine2_pet_id'],
+                cmms_pet_id: datas[i]['cmms_pet_id']
+            };
+
+            myTR.append(" <td class='modal-account'>" + accountInfo.full_name +
+                "</td> <td class='modal-account'>" + accountInfo.email_account +
+                "</td> <td class='modal-account '>" + accountInfo.cmms_pet_id +
+                "</td> <td class='modal-account '>" + accountInfo.seine2_pet_id +
+                "</td> <td class='modal-account '><i class='far fa-trash-alt' data-toggle='tooltip' data-placement='bottom' title='Delete Role'></i> <i class='fas fa-edit'></i> " +
+                "</td>");
+
+            $('tbody.account-list').append(myTR);
+        }
+    }
+
+*/
+
+</script>
+
+{% endblock %}

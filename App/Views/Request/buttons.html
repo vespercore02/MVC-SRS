@@ -1,0 +1,130 @@
+{% if button %}
+
+<div class="card mt-5">
+    <div class="card-body">
+        <div class="row">
+
+            {% if (button == "Modify") %}
+
+            <div class="col-lg-4">
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#modify">Modify
+                </button>
+            </div>
+
+            {% else %}
+            <div class="col-lg-4">
+                <!--
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#endorsement">
+                    {% if (button == "Acknowledge") %}
+                    Acknowledge
+                    {% elseif (button == "Done") %}
+                    Done
+                    {% elseif (button == "Confirmation") %}
+                    Confirmation
+                    {% elseif (button == "Assessment") %}
+                    Assessment
+                    {% else %}
+                    Endorse
+                    {% endif %}
+                </button>
+                -->
+
+                {% if (button == "Endorse to Checker") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#endorseTo">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Endorse to Approver") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#endorseTo">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Endorse to MIS") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#endorseTo">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Endorse to Support") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#endorse{{details.sr_process}}">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Acknowledge") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#endorseTo">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Done") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#Done{{details.sr_process}}">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Confirmation") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#Confirmation">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Endorse to SRS Checker") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#SRSChecker">
+                    {{ button }}
+                </button>
+                {% elseif (button == "Assessment") %}
+                <button type="button" class="btn btn-success system-form-button" data-toggle="modal"
+                    data-target="#Assessment">
+                    {{ button }}
+                </button>
+                {% endif %}
+            </div>
+
+            {% endif %}
+
+            <div class="col-lg-4">
+                {% if button == "Endorse My Request" %}
+                <button class="btn btn-danger system-form-button">Cancel</button>
+                {% else %}
+                <button class="btn btn-warning system-form-button logs" data-toggle="modal"
+                    data-target="#logs">Logs</button>
+                {% endif %}
+            </div>
+
+
+
+
+            <div class="col-lg-4">
+                <button class="btn btn-secondary system-form-button"
+                    onclick="window.history.go(-1); return false;">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% else %}
+
+<!-- User Bottons-->
+<div class="card mt-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-1">
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-warning system-form-button logs" data-toggle="modal"
+                    data-target="#logs">Logs</button>
+            </div>
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-secondary system-form-button"
+                    onclick="window.history.go(-1); return false;">Back</button>
+            </div>
+
+            <div class="col-lg-1">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}

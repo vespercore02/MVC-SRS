@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Forms{% endblock %}
+
+{% block body %}
+
+
+<div class="row mt-5">
+
+    <div class="col-12 col-lg-6 col-xl-6 ">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Add Request</h4>
+            </div>
+            <div class="card-body">
+                <form action="/manages/add-Request" method="POST">
+                    <div class="form-group row">
+                        <label for="request_name" class="col-4 col-form-label text-right">Request Name :</label>
+                        <div class="col-8">
+                            <input type="text" name="request_name" id="request_name" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="request_site" class="col-4 col-form-label text-right">Site :</label>
+                        <div class="col-8">
+                            <input type="text" name="request_site" id="request_site" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="estimate_days" class="col-4 col-form-label text-right">Estimate Days :</label>
+                        <div class="col-8">
+                            <input type="text" name="estimate_days" id="estimate_days" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4"></div>
+
+                        <button class="col-4 btn btn-primary">Submit</button>
+
+                        <div class="col-4">
+                                <a href="/manages/request-config">View Request Configuration</a>
+                            </div>
+                    </div>
+
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-6">
+
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Request Name</h4>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered text-center">
+
+                    <tbody>
+                        {% for request_list in request%}
+                        <tr>
+                            <td>{{ request_list.request_name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

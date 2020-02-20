@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+
+<div class="row mt-5">
+
+
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+
+        {% if current_user %}
+
+        <h1>Welcome</h1>
+
+        {{current_user.full_name}}
+        {{current_user.role}}
+
+        {% else %}
+
+        <p>Please login <a href="/login">here</a>. </p>
+
+        {% endif %}
+
+    </div>
+    <div class="col-lg-2"></div>
+
+
+    <div class="col-lg-12">
+
+        {% if current_user %}
+        
+        {{current_user.full_name }}
+
+        {% if '-admin' in current_user.pet_id %}
+
+        {% include 'Home/request-list-admin.html' %}
+
+        <script>
+            var controller1 = "/requests/inchgargerequestdata";
+            var filter_name = 'admin.{{ current_user.full_name}}';
+            var controller2 = "/requests/inchgargerequestdatapage";
+        </script>
+
+        {% else %}
+
+        {% include 'Home/request-list-notadmin.html' %}
+
+        <script>
+            var controller1 = "/requests/myrequestdata";
+            var filter_name = '{{ current_user.full_name}}';
+            var controller2 = "/requests/myrequestdatapage";
+        </script>
+
+        {% endif %}
+
+
+        {% endif %}
+
+    </div>
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    /*
+    var weight = $(window).width();
+    alert(weight)
+    
+    $(document).ready(function () {
+        /*
+        $(weight).change(function () {
+            alert(document.body.clientWidth);
+        });
+        
+        $(weight).change(function () {
+        });
+
+$( window ).resize(function(){
+        var weight = $(window).width();
+        if (document.body.clientWidth < 720) {
+            $('table tr').find('th:last-child, td:last-child').hide()
+        }
+
+        if (document.body.clientWidth < 520) {
+            $('table tr').find('th:last-child, td:last-child').hide()
+        }
+
+        
+        if (document.body.clientWidth > 720) {
+            $('table tr').find('th:last-child, td:last-child').show()
+        }
+});
+        if (document.body.clientWidth < 720) {
+            $('table tr').find('th:last-child, td:last-child').remove()
+        }
+    });
+
+*/
+    function pad(num, size) {
+        var s = num + "";
+        while (s.length < size) s = "0" + s;
+        return s;
+    }
+
+    function linkup(link) {
+        window.location.href = $(link).attr("value");
+    }
+    
+    $(document).ready(function () {
+        var id, start, limit, page, pages, page_list, timeout;
+        start = 0;
+        limit = 10;
+
+        $(document).on('click', '.page-link', function () {
+
+            id = $(this).data('page');
+            getData(id, start, limit, filter_name);
+            //alert(id);
+            getPage(id, start, limit, filter_name);
+            $('.page_list').empty();
+            $('.table-list').show();
+            $('.view-data').hide();
+        });
+
+        if (id == null) {
+            id = 1;
+            getData(id, start, limit, filter_name);
+            getPage(id, start, limit, filter_name);
+        }
+
+        function getData(id, start, limit, filter_name) {
+            $.get(controller1, { id: id, start: start, limit: limit, filter_name: filter_name }).done(function (data) {
+                var requestData = jQuery.parseJSON(data);
+                //alert(img.length)
+
+                $('tbody').empty();
+                for (var i = 0; i < requestData.length; i++) {
+
+                    var requestInfo = {
+                        request_id: requestData[i][0],
+                        process: requestData[i][1],
+                        referenceNo: requestData[i][1] + "-" + pad(requestData[i][2], 4) + "-" + requestData[i][3],
+                        dateNeeded: requestData[i][4],
+                        details: requestData[i][5],
+                        status: requestData[i][6],
+                        inCharge: requestData[i][7]
+                    };
+
+                    var myTR = $("<tr data-page=" + id + "></tr>");
+
+                    var url = "/requests/" + requestInfo.process + "/" + requestInfo.request_id;
+                    /*
+                    var cls = img[i][1] + "/" + img[i][0];
+                    */
+                    myTR.append("<td class='modal-name data-view' data-view='" + requestData[i][0] + "' onclick='linkup(this)' value='/requests/" + requestInfo.process + "/" + requestInfo.request_id + "' '>" + requestInfo.referenceNo + "</td> <td class='modal-account'>" + requestInfo.dateNeeded + "</td> <td class='modal-account'>" + requestInfo.details.substr(0, 50) + "...</td> <td class='modal-account hide520px'>" + requestInfo.status + "</td> <td class='modal-account hide720px'>" + requestInfo.inCharge + "</td>");
+
+
+                    $('tbody').append(myTR);
+                }
+
+                console.log(requestData);
+            });
+        }
+
+        function getPage(id, start, limit, filter_name) {
+
+            $('.page_list').empty();
+
+            $.get(controller2, { page: "1", filter_name: filter_name }).done(function (data) {
+                pages = jQuery.parseJSON(data);
+
+                page_list = Math.ceil(pages / limit);
+
+                //alert(page_list);
+
+                var currentpage = id;
+
+                if (currentpage > 3) {
+                    page = $('<li class="page-item"><a class="page-link" data-page="1"><<</a></li>');
+                    $('.page_list').append(page);
+                    if (id >= 11) {
+                        var prevpage = currentpage - 10;
+                        page = $('<li class="page-item"><a class="page-link" data-page=' + prevpage + '>' + prevpage + '</a></li>');
+                        $('.page_list').append(page);
+                        page = $('<li class="page-item disabled"><i class="page-link" >...</i></li>');
+                        $('.page_list').append(page);
+                    }
+                }
+
+                if (currentpage > 1) {
+                    var prevpage = currentpage - 1;
+                    if (page_list != 0) {
+                        page = $('<li class="page-item"><a class="page-link"  data-page=' + prevpage + '>Previous</a></li>');
+                        $('.page_list').append(page);
+                    } else {
+                        var onlefet = " ";
+                    }
+                } else {
+                    var onlefet = " ";
+                }
+
+                var range = 2;
+
+                for (var a = (currentpage - range); a < ((currentpage + range) + range); a++) {
+                    $('.page_list').append(liList);
+                    var liList = $('<li class="page-item disabled">');
+                    if ((a > 0) && (a <= page_list)) {
+
+                        if (a == id) {
+                            liList.append("<b class='page-link bg-success'>" + a + "</b> ");
+                        } else {
+                            liList.append('<a class="page-link"  data-page=' + [a] + '>' + [a] + '</a>')
+                        }
+                    }
+                    liList.append('</li>');
+                }
+
+                if (currentpage != page_list) {
+                    var nextpage = currentpage + 1;
+                    if (page_list != 0) {
+                        page = $('<li class="page-item"><a class="page-link" data-page=' + nextpage + '>Next</a></li>');
+                        $('.page_list').append(page);
+                    } else {
+                        var onright = " ";
+                    }
+                } else {
+                    var onright = " ";
+                }
+
+                if ((page_list - currentpage) > 2) {
+                    if (page_list > 11) {
+                        var nextpage = currentpage + 10;
+
+                        if (nextpage > page_list) {
+
+                        } else {
+                            page = $('<li class="page-item disabled"><i class="page-link" >...</i></li>');
+                            $('.page_list').append(page);
+                            page = $('<li class="page-item"><a class="page-link" data-page=' + nextpage + '>' + nextpage + '</a></li>');
+                            $('.page_list').append(page);
+                        }
+                    }
+
+                    page = $('<li class="page-item"><a class="page-link" data-page=' + page_list + '>>></a></li>');
+                    $('.page_list').append(page);
+                }
+
+            });
+        }
+
+
+    });
+
+</script>
+
+{% endblock %}

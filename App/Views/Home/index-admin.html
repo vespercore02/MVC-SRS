@@ -1,0 +1,405 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - admin{% endblock %}
+
+{% block body %}
+
+<div class="row mt-5">
+
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+
+        <div class="card">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body">
+                <form action="/login/loginas" method="POST">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <input type="text" name="loginas" value="" class="form-control loginas col-lg-4">
+                        <div class="col-lg-2"></div>
+                        <button type="submit" name="login_as_pet" class="btn btn-success col-lg-2">Login AS</button>
+                        <div class="col-lg-2"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<div class="row">
+
+    <div class="col-12 mt-5">
+        <div class="card bg-0">
+            <div class="card-body">
+                <h4>Handled Request</h4>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-warning">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5>Assigned</h5>
+
+                <h4>
+                    <a href="/home/assigned">
+                        <span class="badge badge-dark badge-pill">{{ assigned }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-success">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="text-white">Work in Progress</h5>
+
+                <h4>
+                    <a href="/home/WorkinProgress">
+                        <span class="badge badge-dark badge-pill">{{ workinprogress }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-info">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="text-white">Done</h5>
+
+                <h4>
+                    <a href="/home/done">
+                        <span class="badge badge-dark badge-pill">{{ done }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-primary">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="text-white">Closed</h5>
+
+                <h4>
+                    <a href="/home/closed">
+                        <span class="badge badge-dark badge-pill">{{ closed }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-12 mt-5">
+        <div class="card bg-1">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h4>Your <u>{{ "now"|date("F") }}</u> Receive Request</h4>
+
+                <span>
+                    {{ this_month_total }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-warning">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5>Assigned</h5>
+
+                <h4>
+                    <a href="#">
+                        <span class="badge badge-dark badge-pill">{{ this_month_assigned }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-success">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="text-white">Work in Progress</h5>
+
+                <h4>
+                    <a href="#">
+                        <span class="badge badge-dark badge-pill">{{ this_month_wip }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-info">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="text-white">Done</h5>
+
+                <h4>
+                    <a href="#">
+                        <span class="badge badge-dark badge-pill">{{ this_month_done }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-3 col-xl-3 mt-5">
+        <div class="card bg-primary">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h5 class="text-white">Closed</h5>
+
+                <h4>
+                    <a href="#">
+                        <span class="badge badge-dark badge-pill">{{ this_month_closed }}</span>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% if status != "" %}
+<div class="row">
+
+    <div class="col-12 col-lg-12 col-xl-12 mt-5">
+        <div class="card">
+            <div class="card-header pt-3">
+                <h4>{{status | title }} Request</h4>
+            </div>
+            <div class="card-body">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Reference No.</th>
+                            <th>Request Date</th>
+                            <th>Requestor</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="request">
+                        {% for data in request_data %}
+                        <tr>
+                            <td>
+                                <a href="/requests/view/{{ data.0}}">
+                                    {{ data.1}}-{{ "%04d"|format(data.2) }}-{{ data.3}}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ data.4}}
+                            </td>
+                            <td>
+                                {{ data.5}}
+                            </td>
+                            <td>
+                                {{ data.6}}
+                            </td>
+                            <td>
+                                {{ data.7}}
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer ">
+
+                <nav aria-label="Page navigation example">
+
+                    {% set pages = request_page / 10 %}
+
+                    {% set total_pages = pages|round %}
+
+                    {% if total_pages != 0 %}
+                    <ul class="pagination page_list justify-content-center pt-3">
+                        {% if current_page > 1%}
+
+                        {% set prev_page = current_page - 1%}
+
+                        {% if prev_page != 0 %}
+                        <li class='page-item '><a class='page-link'
+                                href="/home/{{ status |replace({' ': ''}) }}/{{ prev_page }}">Previous</a></li>
+                        {% endif%}
+
+                        {% endif%}
+
+                        {% set range = 2%}
+
+                        {% set prev_pages = current_page - range %}
+
+                        {% if prev_pages == 0 %}
+
+                        {% set prev_pages = prev_pages + 1 %}
+
+                        {% endif%}
+
+                        {% if (prev_pages > 0) or ( prev_pages == 1)  %}
+
+                        {% for page in prev_pages..current_page %}
+
+                        {%if page != current_page %}
+                        <li class='page-item '><a class='page-link'
+                                href="/home/{{ status |replace({' ': ''}) }}/{{ page }}">{{page}}</a></li>
+
+                        {% endif%}
+                        {% endfor %}
+                        {% endif%}
+
+                        {% for page in 1..total_pages %}
+
+                        {%if page == current_page %}
+                        <li class='page-item disabled'> <b class='page-link bg-success'>{{page}}</b> </li>
+
+                        {% endif%}
+                        {% endfor %}
+
+                        {% set next_pages = current_page + range %}
+
+                        {% if next_pages > total_pages %}
+
+                        {% set next_pages = next_pages - 1 %}
+
+                        {% endif%}
+
+                        {% if (total_pages > next_pages) or (total_pages == next_pages) %}
+                        {% for page in current_page..next_pages %}
+                        {%if page != current_page %}
+                        <li class='page-item '><a class='page-link'
+                                href="/home/{{ status |replace({' ': ''}) }}/{{ page }}">{{page}}</a></li>
+
+                        {% endif%}
+                        {% endfor %}
+                        {% endif%}
+
+
+
+                        {% if (total_pages > current_page)  %}
+
+                        {% set next_page = current_page + 1%}
+
+                        <li class='page-item '><a class='page-link'
+                                href="/home/{{ status |replace({' ': ''}) }}/{{ next_page }}">Next</a></li>
+
+                        {% endif%}
+
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script>
+
+    $(function () {
+
+        //autocomplete
+        $(".loginas").autocomplete({
+            source: "/account/get-Name",
+            minLength: 2
+        });
+
+    });
+/*
+        var controllerData = "/requests/inchgargerequestdata";
+        var filter_name = '{{ current_user.full_name}}';
+        var controllerPage = "/requests/inchgargerequestdatapage";
+    
+        $(document).ready(function () {
+            var id, start, limit, page, pages, page_list, timeout, res1;
+            start = 0;
+            limit = 10;
+    
+            $('th').on('click', function () {
+                //alert($(this).attr('name'));
+                status = $(this).attr('name');
+                $('h4.status').empty();
+                $('h4.status').append(status);
+                id = 1;
+    
+                getData(id, start, limit, filter_name, controllerData, status);
+                getPage(id, start, limit, filter_name, controllerPage, status);
+    
+                //alert(getData(id, start, limit, filter_name, controllerData, status));
+            });
+    
+            $(document).on('click', '.page-link', function () {
+    
+                id = $(this).data('page');
+                getData(id, start, limit, filter_name, controllerData, status);
+                getPage(id, start, limit, filter_name, controllerPage, status);
+                $('.page_list').empty();
+                $('.table-list').show();
+                $('.view-data').hide();
+            });
+    
+            if (id == null) {
+                id = 1;
+                getData(id, start, limit, filter_name, controllerData, status);
+                getPage(id, start, limit, filter_name, controllerPage, status);
+            }
+    
+            //console.log(res1)
+        });
+    
+        function tbl_info(datas) {
+    
+            $('tbody.request').empty();
+    
+            for (let i = 0; i < datas.length; i++) {
+    
+                var myTR = $("<tr ></tr>");
+    
+                var requestInfo = {
+                    request_id: datas[i][0],
+                    process: datas[i][1],
+                    referenceNo: datas[i][1] + "-" + pad(datas[i][2], 4) + "-" + datas[i][3],
+                    dateNeeded: datas[i][4],
+                    requestor: datas[i][5],
+                    request: datas[i][6],
+                    status: datas[i][7]
+                };
+    
+                myTR.append("<td class='modal-name data-view' data-view='" + datas[i][0] +
+                    "' onclick='linkup(this)' value='/requests/view/" + requestInfo.request_id +
+                    "' '>" + requestInfo.referenceNo +
+                    "</td> <td class='modal-account'>" + requestInfo.dateNeeded +
+                    "</td> <td class='modal-account'>" + requestInfo.requestor +
+                    "</td> <td class='modal-account hide520px'>" + requestInfo.request +
+                    "</td> <td class='modal-account hide720px'>" + requestInfo.status +
+                    "</td>");
+    
+                $('tbody.request').append(myTR);
+            }
+        }
+        */
+</script>
+{% endblock %}

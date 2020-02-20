@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Account - Role{% endblock %}
+
+{% block body %}
+
+<div class="row mt-5">
+
+    <div class="col-12 col-lg-6 col-xl-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Add Role</h4>
+            </div>
+            <div class="card-body">
+                <form action="/account/add-AccountRole" method="POST">
+                    <div class="form-group row">
+                        <label for="emp_name" class="col-4 col-form-label text-right">Name / I.D. :</label>
+                        <div class="col-8">
+                            <input type="text" name="emp_name" id="emp_name" class="form-control emp_name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="emp_dept" class="col-4 col-form-label text-right">Department :</label>
+                        <div class="col-8">
+                            <select name="emp_dept" class="form-control">
+                                <option value="">Department</option>
+                                {% for department in department_list %}
+                                <option value="{{ department.dept_name }}">{{ department.dept_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="emp_role" class="col-4 col-form-label text-right">Role :</label>
+                        <div class="col-8">
+                            <select name="emp_role" class="form-control">
+                                <option value="">Role</option>
+                                {% for role in role_list %}
+                                <option value="{{ role.role_name }}">{{ role.role_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-5"></div>
+
+                        <button class="col-4 btn btn-primary">Add</button>
+
+                        <div class="col-3"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 col-lg-6 col-xl-6">
+
+        <div class="card">
+            <div class="card-header d-flex">
+                <h4>User Role List</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <label for="emp_name" class="col-5 col-form-label text-right">Filter :</label>
+                    <div class="col-4">
+                        <input type="text" name="filter_name" class="form-control mb-2" placeholder="Search . . . ">
+                    </div>
+                </div>
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Role
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </thead>
+                    <tbody>
+                        {% for request_config_list in request_config%}
+                        <tr>
+                            <td>{{ request_config_list.request_name}}</td>
+                            <td>{{ request_config_list.site}}</td>
+                            <td>{{ request_config_list.estimate_days}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer ">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination page_list justify-content-center pt-3">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+    let id, data, filter_name;
+
+    let controllerData = "/account/getroledata";
+
+    let controllerPage = "/account/getrolepage";
+
+    $(function () {
+
+        //autocomplete
+        $(".emp_name").autocomplete({
+            source: "/account/get-Name",
+            minLength: 2
+        });
+
+    });
+
+
+    $(document).ready(function () {
+
+        filter_name = "";
+        id = 1;
+        data = { "id": id, "filter_name": filter_name };
+        
+        getAccountData(data)
+        getAccountPage(data)
+
+    });
+
+    $("input[name=filter_name]").on('input', function () {
+        filter_name = $(this);
+
+        clearTimeout(filter_name.data('timeout'));
+
+        filter_name.data('timeout', setTimeout(function () {
+            filter_name = filter_name.val();
+
+            console.log(filter_name);
+            id = 1;
+            data = { "id": id, "filter_name": filter_name };
+            $('.page_list').empty();
+            getAccountData(data)
+            getAccountPage(data)
+        }, 250));
+
+    });
+
+console.log(data)
+
+    
+    $(document).on('click', '.page-link', function () {
+
+        id = $(this).data('page');
+        data = { "id": id, "filter_name": filter_name };
+
+        $('.page_list').empty();
+        getAccountData(data)
+        getAccountPage(data)
+
+    });
+
+    function tbl_info(data) {
+
+        $('tbody').empty();
+        for (var i = 0; i < data.length; i++) {
+            var myTR = $("<tr data-page=" + id + "></tr>");
+
+            var url = '/forms/' + data[i][1] + '/' + data[i][0] + '';
+            var cls = data[i][1] + "/" + data[i][0];
+            myTR.append("<td class='modal-name data-view' " + url +
+                " data-view='" + data[i][0] +
+                "' onclick='linkup(this)' value='" + url + "' '>" + data[i][0] +
+                "</td> <td class='modal-account'>" + data[i][1] + "</td> <td>" + data[i][2] +
+                "</td> <td><i class='far fa-trash-alt' data-toggle='tooltip' data-placement='bottom' title='Delete Role'></i></td>");
+
+
+            $('tbody').append(myTR);
+        }
+    }
+
+</script>
+
+{% endblock %}

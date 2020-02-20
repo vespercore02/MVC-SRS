@@ -1,0 +1,62 @@
+<div class="access-request mt-5">
+    <div class="form-name">
+        <h4>Access Request From</h4>
+    </div>
+    <div class="user-side-row">
+        <div class="div3">
+            <h6>User Information</h6>
+        </div>
+        <div class="div1">
+            <h6>Request</h6>
+        </div>
+        <div class="div2">
+            <h6>Path Information</h6>
+        </div>
+    </div>
+    <div class="user-side-row"></div>
+</div>
+
+{% for access_details in access_request%}
+<div class="user-side-row access-request">
+    <div class="div3">
+        <label for="">{{ access_details.name }}</label>
+    </div>
+    <div class="div1">
+        <div class="request">
+                {% if access_details.request == "Add" %}
+
+                <label class="checked" for="">Add</label>
+    
+                <label class="" for="">Edit</label>
+    
+                <label class="" for="">Delete</label>
+    
+                {% endif %}
+    
+                {% if access_details.request == "Edit" %}
+    
+                <label class="" for="">Add</label>
+    
+                <label class="checked" for="">Edit</label>
+    
+                <label class="" for="">Delete</label>
+    
+                {% endif %}
+    
+                {% if access_details.request == "Delete" %}
+    
+                <label class="" for="">Add</label>
+    
+                <label class="" for="">Edit</label>
+    
+                <label class="checked" for="">Delete</label>
+    
+                {% endif %}
+        </div>
+    </div>
+    <div class="div2">
+        <label for="">{{ access_details.path_request }}</label>
+    </div>
+</div>
+
+{% endfor %}

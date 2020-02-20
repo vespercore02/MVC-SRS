@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Request{% endblock %}
+
+{% block body %}
+
+
+<div class="row mt-5">
+
+    <div class="col-12 col-lg-6 col-xl-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>Configure Request</h4>
+            </div>
+            <div class="card-body">
+                <form action="/manages/addRequestConfig" method="POST">
+                    <div class="form-group row">
+                        <label for="request_name" class="col-4 col-form-label text-right">Request Name :</label>
+                        <div class="col-8">
+                            <select name="request_name" class="form-control">
+                                <option value="">Request</option>
+                                {% for request_list in request %}
+                                <option value="{{ request_list.request_name }}">{{ request_list.request_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="request_site" class="col-4 col-form-label text-right">Site :</label>
+                        <div class="col-8">
+                            <input type="text" name="request_site" id="request_site" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="estimate_days" class="col-4 col-form-label text-right">Estimate Days :</label>
+                        <div class="col-8">
+                            <input type="text" name="estimate_days" id="estimate_days" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-5"></div>
+
+                        <button class="col-4 btn btn-primary">Submit</button>
+
+                        <div class="col-3"></div>
+                    </div>
+
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-6">
+
+
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <th>
+                            Request Name
+                        </th>
+
+                        <th>
+                            Site
+                        </th>
+
+                        <th>
+                            Estimate Days
+                        </th>
+                    </thead>
+                    <tbody>
+                        {% for request_config_list in request_config%}
+                        <tr>
+                            <td>{{ request_config_list.request_name}}</td>
+                            <td>{{ request_config_list.site}}</td>
+                            <td>{{ request_config_list.estimate_days}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

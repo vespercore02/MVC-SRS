@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+
+<div class="row">
+
+    <div class="col-12 col-lg-3 col-xl-3 mt-5"></div>
+
+    <div class="col-12 col-lg-6 col-xl-6 mt-5">
+
+        <div class="card">
+            <div class="card-header bg-0 d-flex">
+                <i class="fas fa-search fa-2x mr-2"></i>
+                <h4>Search</h4>
+            </div>
+            <div class="card-body">
+                <form action="/requests/searchdata" method="get">
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Name : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Department : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="department">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Control # : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="control_no">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Assigned MIS : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="assigned_mis">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Details : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="details">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">PIRF # : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="pirf_no">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4">
+                        </div>
+
+                        <button class="btn btn-success font-weight-bold col-lg-4" type="submit" name="adv_search"
+                            value="search">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 mt-5"></div>
+
+</div>
+
+<div class="row">
+    {% if search_result %}
+    <div class="col-12 col-lg-12 mt-5">
+        <div class="card">
+            <div class="card-header bg-0 d-flex">
+                <i class="fas fa-list fa-2x mr-2"></i>
+                <h4>Search Result</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Reference No.</th>
+                            <th>Request Date</th>
+                            <th>Requestor</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="request">
+                        {% for result in search_result %}
+                        <tr>
+                            <td> <a
+                                    href="/requests/view/{{ result[0] }}">{{ result[1] }}-{{ "%04d"|format(result[2]) }}-{{ result[3] }}</a>
+                            </td>
+                            <td>{{ result[4] }}</td>
+                            <td> {{ result[5] }}</td>
+                            <td> {{ result[6] }} </td>
+                            <td> {{ result[7] }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example">
+
+                    {% set pages = search_result_page / 10 %}
+
+                    {% set total_pages = pages|round %}
+
+                    {% if total_pages != 0 %}
+                    <ul class="pagination page_list justify-content-center pt-3">
+                        {% if current_page > 1%}
+
+                        {% set prev_page = current_page - 1%}
+
+                        {% if prev_page != 0 %}
+                        <li class='page-item '><a class='page-link'
+                                href="/requests/searchdata?name={{name}}&department={{department}}&control_no={{control_no}}&assigned_mis={{assigned_mis}}&details={{details}}&pirf_no={{pirf_no}}&adv_search=search/id={{ prev_page }}">Previous</a>
+                        </li>
+                        {% endif%}
+
+                        {% endif%}
+
+                        {% set range = 2%}
+
+                        {% set prev_pages = current_page - range %}
+
+                        {% if prev_pages == 0 %}
+
+                        {% set prev_pages = prev_pages + 1 %}
+
+                        {% endif%}
+
+                        {% if (prev_pages > 0) or ( prev_pages == 1)  %}
+
+                        {% for page in prev_pages..current_page %}
+
+                        {%if page != current_page %}
+                        <li class='page-item '><a class='page-link'
+                                href="/requests/searchdata?name={{name}}&department={{department}}&control_no={{control_no}}&assigned_mis={{assigned_mis}}&details={{details}}&pirf_no={{pirf_no}}&adv_search=search&id={{page}}">{{page}}</a>
+                        </li>
+
+                        {% endif%}
+                        {% endfor %}
+                        {% endif%}
+
+                        {% for page in 1..total_pages %}
+
+                        {%if page == current_page %}
+                        <li class='page-item disabled'> <b class='page-link bg-success'>{{page}}</b> </li>
+
+                        {% endif%}
+                        {% endfor %}
+
+                        {% set next_pages = current_page + range %}
+
+                        {% if next_pages > total_pages %}
+
+                        {% set next_pages = next_pages - 1 %}
+
+                        {% endif%}
+
+                        {% if (total_pages > next_pages) or (total_pages == next_pages) %}
+                        {% for page in current_page..next_pages %}
+                        {%if page != current_page %}
+                        <li class='page-item '><a class='page-link'
+                                href="/requests/searchdata?name={{name}}&department={{department}}&control_no={{control_no}}&assigned_mis={{assigned_mis}}&details={{details}}&pirf_no={{pirf_no}}&adv_search=search&id={{ page }}">{{page}}</a>
+                        </li>
+
+                        {% endif%}
+                        {% endfor %}
+                        {% endif%}
+
+
+
+                        {% if (total_pages > current_page)  %}
+
+                        {% set next_page = current_page + 1%}
+
+                        <li class='page-item '><a class='page-link'
+                                href="/requests/searchdata?name={{name}}&department={{department}}&control_no={{control_no}}&assigned_mis={{assigned_mis}}&details={{details}}&pirf_no={{pirf_no}}&adv_search=search&id={{ next_page }}">Next</a>
+                        </li>
+
+                        {% endif%}
+
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+{% endblock %}

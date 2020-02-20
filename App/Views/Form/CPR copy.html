@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}Forms{% endblock %}
+
+{% block body %}
+
+
+<div class="system-form mt-5">
+    <div class="form-name">
+        <h4>Computer Problem Request</h4>
+    </div>
+
+    <form action="/requests/create-request" method="POST" autocomplete="off">
+
+        <div class="user-side">
+            <div class="user-side-label">
+                User Side
+            </div>
+
+            <input type="hidden" name="sr_process" value="CPR">
+            <input type="hidden" name="sr_year" value="{{ 'now'| date('y') }}">
+            <input type="hidden" name="sr_rqstr" value="{{ current_user.full_name }}">
+            <input type="hidden" name="sr_rqstr_id" value="{{ current_user.pet_id }}">
+            <input type="hidden" name="sr_rqstr_dprtmnt" value="{{ current_user.department }}">
+            <input type="hidden" name="sr_date_request" value="{{ 'now'| date('Y/m/d') }}">
+            <input type="hidden" name="sr_mode" value="Web">
+
+            <div class="user-side-form">
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Reported by</h6>
+                    </div>
+                    <div class="div4">
+                        {{ current_user.full_name }}
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Department</h6>
+                    </div>
+                    <div class="div4">
+                        {{ current_user.department }}
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Group</h6>
+                    </div>
+                    <div class="div4">
+                        <input type="text" name="sr_grp" class="group-input">
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Site</h6>
+                    </div>
+                    <div class="div4">
+                        <div class="site">
+                            <input class="" type="radio" name="sr_site" id="HO" value="H.O">
+                            <label class="" for="HO">Head Office</label>
+
+                            <input class="" type="radio" name="sr_site" id="BO" value="B.O">
+                            <label class="" for="BO">Branch Office</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Local</h6>
+                    </div>
+                    <div class="div4">
+                        <input type="number" name="sr_local" id="" class="local-number">
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Occured Date</h6>
+                    </div>
+                    <div class="div4">
+                        <input type="text" name="sr_date_set_cpr" class="date-needed">
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Occured Time</h6>
+                    </div>
+                    <div class="div4">
+                        <input type="time" name="sr_time_request" class="date-needed">
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div2">
+                        <h6>Problem</h6>
+                    </div>
+                    <div class="div4">
+                        <select name="sr_rqst" id="">
+                            <option value="">Problem</option>
+                            {% for problem_list in problem %}
+                            <option value="{{ problem_list.problem_name }}">{{ problem_list.problem_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div4">
+                        <p> Description: (Explanation of problem, state operations before/after problem occured)</p>
+                        <textarea name="sr_dtls" id="" cols="30" rows="6"></textarea>
+                    </div>
+                    <div class="div2">
+                        <div class="signatures">
+                            <div class="sig-box text-center">
+                                <!--
+                                            Requestor to Approver Signature/Stamp
+                                        -->
+                                <div class="sig-label">
+                                    Approver
+                                </div>
+                                <div class="signature">
+                                    <!--
+                                    <div class="circle ">
+                                        <div class="dept text-center">PET MIS</div>
+                                        <div class="sig-divider"></div>
+                                        <div class="text-center">
+                                            08/08/19
+                                        </div>
+                                        <div class="sig-divider"></div>
+                                        <div class="text-center">W.Leonardo</div>
+                                    </div>
+
+                                    <div class="code">DS-1234-56</div>
+                                    -->
+                                </div>
+                                <div class="sig-signdate">
+                                    Sign/Date
+                                </div>
+                                <div class="sig-signdate">
+                                    Manager
+                                </div>
+                            </div>
+                            <div class="sig-box text-center">
+                                <!--
+                                                Requestor to Checker Signature/Stamp
+                                            -->
+                                <div class="sig-label">
+                                    Checker
+                                </div>
+                                <div class="signature">
+                                    <!--
+                                    <div class="circle ">
+                                        <div class="dept text-center">PET MIS</div>
+                                        <div class="sig-divider"></div>
+                                        <div class="text-center">
+                                            08/08/19
+                                        </div>
+                                        <div class="sig-divider"></div>
+                                        <div class="text-center">W.Leonardo</div>
+                                    </div>
+
+                                    <div class="code">DS-1234-56</div>
+                                -->
+                                </div>
+                                <div class="sig-signdate">
+                                    Sign/Date
+                                </div>
+                                <div class="sig-signdate">
+                                    Supervisor
+                                </div>
+                            </div>
+
+                            <div class="sig-box text-center">
+                                <!--
+                                                    Requestor to End User Signature/Stamp
+                                                -->
+                                <div class="sig-label">
+                                    Prepared
+                                </div>
+                                <div class="signature">
+                                    <!--
+                                    <div class="circle ">
+                                        <div class="dept text-center">PET MIS</div>
+                                        <div class="sig-divider"></div>
+                                        <div class="text-center">
+                                            08/08/19
+                                        </div>
+                                        <div class="sig-divider"></div>
+                                        <div class="text-center">W.Leonardo</div>
+                                    </div>
+
+                                    <div class="code">DS-1234-56</div>
+                                -->
+                                </div>
+                                <div class="sig-signdate">
+                                    Sign/Date
+                                </div>
+                                <div class="sig-signdate">
+                                    End-user
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="button-area">
+            <button class="btn btn-success loading">Submit</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

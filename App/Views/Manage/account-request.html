@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Manage - Account{% endblock %}
+
+{% block body %}
+
+<div class="row">
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>Account Request</h4>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row">
+
+    <div class="col-12 col-lg-12 col-xl-12 mt-5">
+
+        <div class="card">
+            <div class="card-body">
+
+                {% for request_info in account_request%}
+                {{ request_info.system_request}} <br>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+
+
+{% endblock %}

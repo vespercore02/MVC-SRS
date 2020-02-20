@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% block title %}Modify Request{% endblock %}
+
+{% block body %}
+
+<div class="system-form">
+
+    <div class="form-name">
+        <h4>Computer System Request</h4>
+    </div>
+
+    <form action="/requests/update-request" method="POST" autocomplete="off">
+        <div class="user-side">
+            <div class="user-side-label">
+                User side
+            </div>
+
+            <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+            <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+            <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+            <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+            <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+            <input type="hidden" name="sr_rqstr_id" value="{{ details.sr_rqstr_id }}">
+            <input type="hidden" name="sr_rqstr_dprtmnt" value="{{ details.sr_rqstr_dprtmnt }}">
+            <input type="hidden" name="sr_date_request" value="{{ details.sr_date_request }}">
+            <input type="hidden" name="sr_status" value="{{ status }}">
+            <input type="hidden" name="sr_in_charge" value="{{ in_charge }}">
+            <input type="hidden" name="sr_mode" value="Web">
+
+            <div class="user-side-form">
+                <div class="user-side-row">
+                    <div class="div1">
+                        <h6>Requested by</h6>
+                    </div>
+                    <div class="div3">
+                        {{ details.sr_rqstr }}
+                    </div>
+                    <div class="div1">
+                        <h6>Date Request</h6>
+                    </div>
+                    <div class="div1">
+                        <label id="date_request">{{  details.sr_date_request | date('m/d/Y')}}</label>
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div1">
+                        <h6>Department</h6>
+                    </div>
+                    <div class="div1">
+                        {{ details.sr_rqstr_dprtmnt }}
+                    </div>
+                    <div class="div1">
+                        <h6>Group</h6>
+                    </div>
+                    <div class="div1">
+                        <input type="text" name="sr_grp" class="group-input" value=" {{ details.sr_grp }}">
+                    </div>
+                    <div class="div1">
+                        <h6>Date Needed</h6>
+                    </div>
+                    <div class="div1">
+                        <input type="text" name="sr_date_set" class="date-needed"
+                            value="{{ details.sr_date_set | date('m/d/Y') }}" required>
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div1">
+                        <h6>Site</h6>
+                    </div>
+                    <div class="div3">
+                        <div class="site">
+
+                            {% if details.sr_site == "HO" %}
+                            <input class="" type="radio" name="sr_site" id="HO" value="HO" checked required>
+                            <label class="" for="HO">Head Office</label>
+                            {% else %}
+                            <input class="" type="radio" name="sr_site" id="HO" value="HO" required>
+                            <label class="" for="HO">Head Office</label>
+                            {% endif %}
+
+                            {% if details.sr_site == "BO" %}
+                            <input class="" type="radio" name="sr_site" id="BO" value="BO" checked required>
+                            <label class="" for="BO">Branch Office</label>
+                            {% else %}
+                            <input class="" type="radio" name="sr_site" id="BO" value="BO" required>
+                            <label class="" for="BO">Branch Office</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="div1">
+                        <h6>Local</h6>
+                    </div>
+                    <div class="div1">
+                        <input type="number" name="sr_local" id="" class="local-number" value="{{ details.sr_local }}"
+                            required>
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div1">
+                        <h6>Request</h6>
+                    </div>
+                    <div class="div3">
+                        <select name="sr_rqst" id="" required>
+                            <option value="{{ details.sr_rqst }}">{{ details.sr_rqst }}</option>
+                            {% for request_list in request %}
+
+                            {% if request_list.request_name == "details.sr_rqst"%}
+
+                            {% else %}
+
+                            <option value="{{ request_list.request_name }}">{{ request_list.request_name }}</option>
+
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="div1">
+                        <h6>Ip Address</h6>
+                    </div>
+                    <div class="div1">
+                        <input type="text" name="sr_ipadd" class="ip-address" value="{{ details.sr_ipadd }}" required>
+                    </div>
+                </div>
+
+                <div class="user-side-row">
+                    <div class="div4">
+
+                        Description: (Describe what feature, function, equipment or purpose. Explain fully if possible)
+                        <textarea name="sr_dtls" id="" cols="100" rows="5" required>{{ details.sr_dtls }}</textarea>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <button class="btn btn-success system-form-button">Update</button>
+                    </div>
+                    <div class="col-lg-4">
+                        <button class="btn btn-danger system-form-button" onclick='linkup(this)' value="/requests/delete/{{ details.sr_id}}">Cancel</button>
+                    </div>
+                    <div class="col-lg-4">
+                        <button class="btn btn-secondary system-form-button"
+                            onclick="window.history.go(-1); return false;">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+    $(document).ready(function () {
+        let sr_date_request, sr_site, sr_date_set, sr_rqst, suggested_date;
+        sr_date_request = $('input[name=sr_date_request]').val();
+
+        $('input[name=sr_local]').keypress(function (event) {
+            if ((event.which != 46) && (event.which < 48 || event.which > 57)) {
+                //$(".errmsg").html("Digits Only").show();
+                alert("local number are 3 digits only!");
+                return false;
+            }
+        });
+
+        $('input[name=sr_date_set]').datepicker({
+            beforeShowDay: $.datepicker.noWeekends,
+            minDate: 0
+        });
+
+        $('input[name=sr_date_set]').change(function () {
+
+            $.datepicker.formatDate("yy-mm-dd")
+
+            sr_date_set = $(this).val();
+
+
+            checkRequest(sr_date_request, sr_site, sr_date_set, sr_rqst)
+        });
+
+        $('input[name=sr_site').change(function () {
+            sr_site = $(this).val();
+
+            checkRequest(sr_date_request, sr_site, sr_date_set, sr_rqst)
+        });
+
+        $('select[name=sr_rqst]').change(function () {
+            sr_rqst = $(this).val();
+
+            checkRequest(sr_date_request, sr_site, sr_date_set, sr_rqst)
+        });
+
+    });
+
+    function checkRequest(sr_date_request, sr_site, sr_date_set, sr_rqst) {
+
+        //alert(sr_date_request + " " + sr_site + " " + sr_date_set + " " + sr_rqst)
+
+        if (sr_date_request != null && sr_site != null && sr_date_set != null && sr_rqst != null) {
+            //alert(sr_date_request + " " + sr_site + " " + sr_date_set + " " + sr_rqst);
+            let d0 = new Date(sr_date_request);
+            sr_date_request = d0.getFullYear() + '-' + ('0' + (d0.getMonth() + 1)).slice(-2) + '-' + ('0' + d0.getDate()).slice(-2);
+            let d1 = new Date(sr_date_set);
+            sr_date_set = d1.getFullYear() + '-' + ('0' + (d1.getMonth() + 1)).slice(-2) + '-' + ('0' + d1.getDate()).slice(-2);
+
+            let workingDays = workingDaysBetweenDates(sr_date_request, sr_date_set);
+
+            //console.log(workingDays);
+
+            $.get("/manages/checkrequestconfig", { request: sr_rqst, site: sr_site }).done(function (data) {
+                let requestConfig = jQuery.parseJSON(data);
+
+                var requestConfigInfo = {
+                    request_name: requestConfig[0]['request_name'],
+                    site: requestConfig[0]['site'],
+                    working_days: requestConfig[0]['estimate_days']
+                };
+
+
+                if (requestConfigInfo.working_days > workingDays) {
+
+                    suggested_date = returnfinaldate(sr_date_request, requestConfigInfo.working_days);
+
+                    console.log(formatDate(suggested_date));
+
+
+
+                    alert(sr_rqst + ' for ' + sr_site + ' is ' + requestConfigInfo.working_days + ' working days. Suggest date will apply');
+
+
+
+                } else {
+
+                    suggested_date = returnfinaldate(sr_date_request, workingDays);
+
+                    console.log(formatDate(suggested_date));
+
+                }
+
+                $('input[name=sr_date_set]').val(formatDate(suggested_date))
+            });
+
+        }
+
+    }
+
+    function purchase(site, category, datestart) {
+
+        if (category == 'Hardware Purchase') {
+            $('.account_rqst').hide();
+            $('.access_rqst').hide();
+
+            if (site == 'HO') {
+                suggested_date = returnfinaldate(datestart, 65);
+            } else if (site == 'BO') {
+                suggested_date = returnfinaldate(datestart, 70);
+            }
+
+        } else if (category == 'Software Purchase' || category === 'Renewal License') {
+            suggested_date = returnfinaldate(datestart, 30);
+
+        } else {
+            suggested_date = returnfinaldate(datestart, 1);
+        }
+
+        return suggested_date;
+    }
+
+
+
+    function workingDaysBetweenDates(d0, d1) {
+        var holidays = ['2019-02-05', '2019-02-25', '2019-04-09', '2019-04-18', '2019-04-19', '2019-05-01', '2019-06-12'];
+        var startDate = parseDate(d0);
+        var endDate = parseDate(d1);
+        // Validate input
+
+        if (endDate < startDate) {
+            return 0;
+        }
+        // Calculate days between dates
+        var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+        startDate.setHours(0, 0, 0, 1);  // Start just after midnight
+        endDate.setHours(23, 59, 59, 999);  // End just before midnight
+        var diff = endDate - startDate;  // Milliseconds between datetime objects
+        var days = Math.ceil(diff / millisecondsPerDay);
+
+        // Subtract two weekend days for every week in between
+        var weeks = Math.floor(days / 7);
+        days -= weeks * 2;
+
+        // Handle special cases
+        var startDay = startDate.getDay();
+        var endDay = endDate.getDay();
+
+        // Remove weekend not previously removed.
+        if (startDay - endDay > 1) {
+            days -= 2;
+        }
+        // Remove start day if span starts on Sunday but ends before Saturday
+        if (startDay == 0 && endDay != 6) {
+            days--;
+        }
+        // Remove end day if span ends on Saturday but starts after Sunday
+        if (endDay == 6 && startDay != 0) {
+            days--;
+        }
+        /* Here is the code */
+        for (var i in holidays) {
+            if ((holidays[i] >= d0) && (holidays[i] <= d1)) {
+                days--;
+            }
+        }
+        return days - 1;
+    }
+
+    function parseDate(input) {
+        // Transform date from text to date
+        var parts = input.match(/(\d+)/g);
+        // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+        return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+    }
+
+
+
+    function returnfinaldate(cdate, days) {
+        var holidays = ['2019-02-05', '2019-02-25', '2019-04-09', '2019-04-18', '2019-04-19', '2019-05-01', '2019-06-12'];
+        //holiday[0] = new Date(2017, 9, 5);// holiday 1
+        //holiday[1] = new Date(2017, 9, 6);//holiday 2
+        var startDate = new Date(cdate);
+        var endDate = new Date(cdate);
+        //startDate = cdate;// '8/1/2017';
+        noOfDaysToAdd = days, count = 0;
+        endDate = startDate;
+        //use below code to include start date in count else comment below code
+        //  if (endDate.getDay() != 0 && endDate.getDay() != 6 && !isHoliday(endDate, holiday)) {
+        //   count++;
+        // }
+        while (count < noOfDaysToAdd) {
+            endDate.setDate(endDate.getDate() + 1)
+            // Date.getDay() gives weekday starting from 0(Sunday) to
+            // 6(Saturday)
+            if (endDate.getDay() != 0 && endDate.getDay() != 6 && !isHoliday(endDate, holidays)) {
+                count++;
+            }
+        }
+        return endDate;
+    }
+
+
+    function isHoliday(dt, arr) {
+        var bln = false;
+        for (var i = 0; i < arr.length; i++) {
+            if (compare(dt, arr[i])) { //If days are not holidays
+                bln = true;
+                break;
+            }
+        }
+        return bln;
+    }
+
+    function compare(dt1, dt2) {
+        var dt1 = new Date(dt1);
+        var dt2 = new Date(dt2);
+        var equal = false;
+        if (dt1.getDate() === dt2.getDate() && dt1.getMonth() === dt2.getMonth() && dt1.getFullYear() === dt2.getFullYear()) {
+            equal = true;
+        }
+        return equal;
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [month, day, year].join('/');
+    }
+
+</script>
+
+{% endblock %}

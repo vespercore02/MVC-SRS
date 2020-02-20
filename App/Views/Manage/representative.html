@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Account - Representative {% endblock %}
+
+{% block body %}
+
+<div class="row mt-5">
+
+    <div class="col-lg-4">
+        <ul class="Manage-Menu">
+            <li class="" id="#AccountSubmenu">
+                <a href="#">Account</a>
+                <ul class="hidden" id="AccountSubmenu">
+                    <li class="" onclick="location.href='/manages/account-role';">
+                        <a href="#">Role</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="" id="#RequestSubmenu">
+                <a href="#">Request</a>
+                <ul class="hidden" id="RequestSubmenu">
+                    <li class="" onclick="location.href='/manages/request-view';">
+                        <a href="#">View</a>
+                    </li>
+                    <li class="" onclick="location.href='/manages/request-config';">
+                        <a href="#">Config</a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" " onclick="location.href='/manages/problem';">
+                <a href="#">Problem</a>
+            </li>
+            <li class="" onclick="location.href='/manages/fileserver';">
+                <a href="#">File Server</a>
+            </li>
+        </ul>
+
+        
+    </div>
+    <div class="col-lg-8">
+            <div class="card mb-3">
+                    <div class="card-header">
+                        <h4>Add Representative</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/account/add-AccountRole" method="POST">
+                            <div class="form-group row">
+                                <label for="emp_name" class="col-4 col-form-label text-right">Name / I.D. :</label>
+                                <div class="col-8">
+                                    <input type="text" name="emp_name" id="emp_name" class="form-control emp_name">
+                                </div>
+                            </div>
+        
+                            <div class="form-group row">
+                                <label for="emp_dept" class="col-4 col-form-label text-right">Department :</label>
+                                <div class="col-8">
+                                    <select name="emp_dept" class="form-control">
+                                        <option value="">Department</option>
+                                        {% for department in department_list %}
+                                        <option value="{{ department.dept_name }}">{{ department.dept_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+        
+                            
+        
+                            <div class="form-group row">
+                                <div class="col-5"></div>
+        
+                                <button class="col-4 btn btn-primary">Add</button>
+        
+                                <div class="col-3"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <label for="emp_name" class="col-5 col-form-label text-right">Filter :</label>
+                    <div class="col-4">
+                        <input type="text" name="filter_name" class="form-control mb-2" placeholder="Search . . . ">
+                    </div>
+                </div>
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </thead>
+                    <tbody>
+                        {% for request_config_list in request_config%}
+                        <tr>
+                            <td>{{ request_config_list.request_name}}</td>
+                            <td>{{ request_config_list.site}}</td>
+                            <td>{{ request_config_list.estimate_days}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer ">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination page_list justify-content-center pt-3">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(function () {
+
+        //autocomplete
+        $(".emp_name").autocomplete({
+            source: "/account/get-Name",
+            minLength: 2
+        });
+
+    });
+
+
+    $(document).ready(function () {
+        var id, start, limit, page, pages, page_list, filter_name, timeout;
+        start = 0;
+        limit = 10;
+        filter_name = '';
+
+        $("input[name=filter_name]").on('input', function () {
+            var filter_name = $(this);
+
+            clearTimeout(filter_name.data('timeout'));
+
+            filter_name.data('timeout', setTimeout(function () {
+                filter_name = filter_name.val();
+                getData(id, start, limit, filter_name);
+                getPage(id, start, limit, filter_name);
+            }, 250));
+
+
+        });
+
+        $(document).on('click', '.page-link', function () {
+
+            id = $(this).data('page');
+            getData(id, start, limit, filter_name);
+            //alert(id);
+            getPage(id, start, limit, filter_name);
+            $('.page_list').empty();
+            $('.table-list').show();
+            $('.view-data').hide();
+        });
+
+
+        if (id == null) {
+            id = 1;
+            getData(id, start, limit, filter_name);
+            getPage(id, start, limit, filter_name);
+        }
+
+        function getData(id, start, limit, filter_name) {
+            $.get("/account/getrepresentativedata", { id: id, start: start, limit: limit, filter_name: filter_name }).done(function (data) {
+                var img = jQuery.parseJSON(data);
+                //alert(img.length)
+
+
+
+                $('tbody').empty();
+                for (var i = 0; i < img.length; i++) {
+                    var myTR = $("<tr data-page=" + id + "></tr>");
+
+                    var url = '/forms/' + img[i][1] + '/' + img[i][0] + '';
+                    var cls = img[i][1] + "/" + img[i][0];
+                    myTR.append("<td class='modal-name data-view' " + url + " data-view='" + img[i][0] + "' onclick='linkup(this)' value='" + url + "' '>" + img[i][0] + "</td> <td class='modal-account'>" + img[i][1]  + "</td> <td><i class='far fa-trash-alt' data-toggle='tooltip' data-placement='bottom' title='Delete Role'></i></td>");
+
+
+                    $('tbody').append(myTR);
+                }
+
+                console.log(img);
+            });
+        }
+
+        function getPage(id, start, limit, filter_name) {
+
+            $('.page_list').empty();
+
+            $.get("/account/getrepresentativedatapage", { page: "1", filter_name: filter_name }).done(function (data) {
+                pages = jQuery.parseJSON(data);
+
+                page_list = Math.ceil(pages / limit);
+
+                //alert(page_list);
+
+                var currentpage = id;
+
+                if (currentpage > 3) {
+                    page = $('<li class="page-item"><a class="page-link" data-page="1"><<</a></li>');
+                    $('.page_list').append(page);
+                    if (id >= 11) {
+                        var prevpage = currentpage - 10;
+                        page = $('<li class="page-item"><a class="page-link" data-page=' + prevpage + '>' + prevpage + '</a></li>');
+                        $('.page_list').append(page);
+                        page = $('<li class="page-item disabled"><i class="page-link" >...</i></li>');
+                        $('.page_list').append(page);
+                    }
+                }
+
+                if (currentpage > 1) {
+                    var prevpage = currentpage - 1;
+                    if (page_list != 0) {
+                        page = $('<li class="page-item"><a class="page-link"  data-page=' + prevpage + '>Previous</a></li>');
+                        $('.page_list').append(page);
+                    } else {
+                        var onlefet = " ";
+                    }
+                } else {
+                    var onlefet = " ";
+                }
+
+                var range = 2;
+
+                for (var a = (currentpage - range); a < ((currentpage + range) + range); a++) {
+                    $('.page_list').append(liList);
+                    var liList = $('<li class="page-item disabled">');
+                    if ((a > 0) && (a <= page_list)) {
+
+                        if (a == id) {
+                            liList.append("<b class='page-link bg-success'>" + a + "</b> ");
+                        } else {
+                            liList.append('<a class="page-link"  data-page=' + [a] + '>' + [a] + '</a>')
+                        }
+                    }
+                    liList.append('</li>');
+                }
+
+                if (currentpage != page_list) {
+                    var nextpage = currentpage + 1;
+                    if (page_list != 0) {
+                        page = $('<li class="page-item"><a class="page-link" data-page=' + nextpage + '>Next</a></li>');
+                        $('.page_list').append(page);
+                    } else {
+                        var onright = " ";
+                    }
+                } else {
+                    var onright = " ";
+                }
+
+                if ((page_list - currentpage) > 2) {
+                    if (page_list > 11) {
+                        var nextpage = currentpage + 10;
+
+                        if (nextpage > page_list) {
+
+                        } else {
+                            page = $('<li class="page-item disabled"><i class="page-link" >...</i></li>');
+                            $('.page_list').append(page);
+                            page = $('<li class="page-item"><a class="page-link" data-page=' + nextpage + '>' + nextpage + '</a></li>');
+                            $('.page_list').append(page);
+                        }
+                    }
+
+                    page = $('<li class="page-item"><a class="page-link" data-page=' + page_list + '>>></a></li>');
+                    $('.page_list').append(page);
+                }
+
+            });
+        }
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+.navbar{
+    background-color: #3f72af;
+    color: #dbe2ef;
+
+}
+.topbar{
+    padding: 0 20px;
+    background-color: #3f72af;
+    color: #dbe2ef;
+    overflow: hidden;
+    display:block;
+}
+.topbar{
+    padding: 0 20px;
+    background-color: #3f72af;
+    color: #dbe2ef;
+    overflow: hidden;
+    display:block;
+}
+
+.topbar ul {
+    margin: 0;
+    padding: 0;
+}
+
+.topbar ul li{
+    margin: 9.5px;
+    padding: 5px;
+    font-size: 1.1em;
+    display:inline-block;
+}
+
+.topbar ul li i:hover{
+    color: #112d4e;
+}
+
+.topbar-brand{
+    width: 350px;
+    margin-top: 25px;
+    padding-left: 20px;
+    font-size: 26px ;
+    position: absolute;
+}
+
+.topbar-menu{
+    margin: 10px 0;
+    padding: 0;
+    float: right;
+}
+
+.topbar ul li a::after{
+    color: #333;
+    padding: 20px 0px;
+    padding-left: 50px;
+    padding-right: 20px;
+    text-decoration: none;
+    display: block;
+}

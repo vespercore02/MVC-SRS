@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+
+<div class="row mt-5">
+
+    <div class="col-lg-3"></div>
+
+    <div class="col-lg-6">
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Search</h4>
+            </div>
+            <div class="card-body">
+
+                <form action="/search/search" method="GET">
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Name : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Department : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="department">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Control # : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="control_no">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Assigned MIS : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="assigned_mis">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">Details : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="details">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-lg-4 text-right">
+                            <label for="" class="col-form-label font-weight-bold">PIRF # : </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="pirf_no">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4">
+                        </div>
+
+                        <button class="btn btn-success font-weight-bold col-lg-4" type="submit" name="adv_search"
+                            value="search">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-3"></div>
+
+</div>
+
+<div class="row mt-5">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex">
+                <i class="fa fas fa-poll-h fa-fw fa-2x" aria-hidden="true"></i>
+                <h4 class="status">Result</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Reference No.</th>
+                            <th>Request Date</th>
+                            <th>Requestor</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="request">
+
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination page_list justify-content-center pt-3">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+{% endblock %}

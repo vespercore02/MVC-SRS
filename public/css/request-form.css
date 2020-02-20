@@ -1,0 +1,141 @@
+
+
+.travel-request-form {
+    background-color: white;
+    border: 1px solid black;
+}
+
+.font {
+    margin-bottom: 10px;
+    font-size: 9pt;
+    font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+}
+
+/*
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0;
+    margin: 0;
+}
+
+table,
+th {
+    border: 1px solid black;
+}
+
+th {
+    background-color: #C9C8C8;
+    text-align: center;
+}
+
+th.location-th {
+    width: 30%;
+}
+
+td {
+    height: 19px;
+    border-left: 1px solid black;
+    border-bottom: 1px dotted black;
+    padding-left: 10px;
+}
+
+table tr.number-of-days td{
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+table tr.number-of-days td{
+    text-align: center;
+    font-weight: bolder;
+}
+
+table .time {
+    width: 149px;
+    text-align: center;
+}
+*/
+.radio {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-weight: bolder;
+}
+.radio input[type=radio] {
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+.radio label {
+    width: 25%;
+}
+
+.form-name {
+    text-align: center;
+    border-bottom: 1px solid black;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+
+.form-name b {
+    font-weight: bold;
+    font-size: 13pt;
+    margin: 13px 0;
+}
+
+.loading-cage{
+    position:fixed;
+    width:100%;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background-color: rgba(116, 114, 114, 0.445);
+    z-index:9999;
+    padding-top: 20%;
+    padding-left: 45%;
+    display: none;
+}
+
+.loading-spin1{
+    border: 16px solid transparent;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid transparent;
+  border-bottom: 16px solid red;
+  width: 150px;
+  height: 150px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+.loading-spin2{
+    
+    position:absolute;
+    width:120px;
+    height:120px;
+    border-style:solid;
+    border-color:green;
+    border-bottom-color:transparent;
+    border-top-color:transparent;
+    border-width: 10px;
+    border-radius:50%;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}

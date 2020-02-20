@@ -1,0 +1,144 @@
+<div class="mis-side"></div>
+<div class="mis-side">
+    <div class="mis-side-label">
+        MIS side
+    </div>
+    <div class="mis-side-form">
+        <div class="mis-side-row">
+            <div class="div1">
+                <h6>Control No.</h6>
+            </div>
+
+            <div class="div2">
+                {{ details.sr_process }}-{{ "%04d"|format(details.sr_number) }}-{{ details.sr_year }}
+            </div>
+
+            <div class="div1">
+                <h6>Status</h6>
+            </div>
+
+            <div class="div2">
+                {{ details.sr_status }}
+            </div>
+
+
+        </div>
+
+        <div class="mis-side-row">
+            <div class="div1">
+                <h6>Received by:</h6>
+            </div>
+            <div class="div2">
+                {{ details.sr_received_by }}
+            </div>
+            <div class="div1">
+                <h6>Date Received:</h6>
+            </div>
+            <div class="div2">
+
+
+
+                {% if details.sr_received_date is empty %}
+
+                {% else %}
+
+                {{ details.sr_received_date | date('m/d/Y H:i')}}
+
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="mis-side-row">
+            <div class="div1">
+                <h6>Assigned to:</h6>
+            </div>
+            <div class="div2">
+                {{ details.sr_assigned_to }}
+            </div>
+            <div class="div1">
+                <h6>Date Assigned:</h6>
+            </div>
+            <div class="div2">
+
+
+
+                {% if details.sr_assigned_date is empty %}
+
+                {% else %}
+
+                {{ details.sr_assigned_date | date('m/d/Y H:i')}}
+
+                {% endif %}
+
+            </div>
+        </div>
+
+        {% if details.sr_process == "CSR" %}
+        <div class="mis-side-row">
+            <div class="div1">
+                <h6>Change Date Needed?</h6>
+            </div>
+
+            <div class="div2">
+                {{ details.sr_change_date }}
+            </div>
+
+            <div class="div1">
+                <h6>Adjusted Date Needed</h6>
+            </div>
+
+            <div class="div2">
+                {% if details.sr_adjusted_date %}
+
+                {{ details.sr_adjusted_date | date('m/d/Y')}}
+
+                {% endif %}
+            </div>
+
+        </div>
+
+        {% endif %}
+        {% if details.sr_process == "CPR" %}
+        <div class="mis-side-row">
+            <div class="div1">
+                <h6>Host Name</h6>
+            </div>
+
+            <div class="div2">
+            </div>
+
+            <div class="div1">
+                <h6>Affected Users</h6>
+            </div>
+
+            <div class="div2">
+                {{ details.sr_num_affected }}
+            </div>
+
+        </div>
+
+        <div class="mis-side-row">
+            <div class="div1">
+                <h6>Total Down Time</h6>
+            </div>
+
+            <div class="div2">
+                {{ details.sr_down_time }}
+            </div>
+
+            <div class="div1">
+                <h6>Total Manhour Lost</h6>
+            </div>
+
+            <div class="div2">
+                {{ details.sr_man_hour }}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if details.sr_process == "DRR" %}
+
+        {% endif %}
+    </div>
+</div>

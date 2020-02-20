@@ -1,0 +1,971 @@
+<!-- Modal -->
+<div class="modal fade" id="endorseTo" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action :</label>
+            <select name="action" class="form-control" required>
+              <option value=""></option>
+
+              {% if endorse_to == "Acknowledge" %}
+              <option value="{{ endorse_to }}">{{ endorse_to }}</option>
+              {% elseif (button == "Done") %}
+              <option value="{{ button }}">{{ button }}</option>
+              {% else %}
+              <option value="Endorse to {{ endorse_to }}">Endorse to {{ endorse_to }}</option>
+              {% if endorse_to != ( "Checker" or "Acknowledge") %}
+              <option value="No Good">No Good</option>
+              {% endif %}
+              {% endif %}
+            </select>
+          </div>
+
+          <div class="officer">
+            <label for="" class="col-form-label"> {{ endorse_to }} :</label>
+            <select name="endorse_to" class="form-control">
+              <option value=""></option>
+
+              {% for endorse_info in endorse_list %}
+
+              <option value="{{endorse_info.full_name}}">{{endorse_info.full_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="endorseCSR" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action : Endorse to Support</label>
+            <input type="hidden" name="action" value="Endorse to Support">
+
+            <input type="hidden" name="process" value="CSR">
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> {{ endorse_to }} :</label>
+            <select name="endorse_to" class="form-control">
+              <option value=""></option>
+
+              {% for endorse_info in endorse_list %}
+
+              <option value="{{endorse_info.full_name}}">{{endorse_info.full_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Change Date Needed?</label>
+            <div class="site">
+              <input class="" type="radio" name="sr_change_date_needed" id="Yes" value="Yes">
+              <label class="" for="Yes">Yes</label>
+
+              <input class="" type="radio" name="sr_change_date_needed" id="No" value="No">
+              <label class="" for="No">No</label>
+            </div>
+          </div>
+
+          <div class="form-group adjust-date">
+            <label for="" class="col-form-label"> Adjust Date Needed</label>
+            <input type="text" name="sr_adjust_date_needed" id="" class="form-control">
+          </div>
+
+
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="endorseCPR" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action : Endorse to Support</label>
+            <input type="hidden" name="action" value="Endorse to Support">
+
+            <input type="hidden" name="process" value="CPR">
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> {{ endorse_to }} :</label>
+            <select name="endorse_to" class="form-control">
+              <option value=""></option>
+
+              {% for endorse_info in endorse_list %}
+
+              <option value="{{endorse_info.full_name}}">{{endorse_info.full_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">No. of Affected Users</label>
+            <input type="text" name="sr_num_affected" id="" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="DoneCSR" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post" autocomplete="off">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+          <input type="hidden" name="endorse_to" value="{{ details.sr_rqstr }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action : Done</label>
+            <input type="hidden" name="action" value="Done">
+
+            <input type="hidden" name="process" value="CSR">
+          </div>
+
+          <div class="form-group">
+
+            <label for="" class="col-form-label">Date Done</label>
+            <input type="text" name="date_done" id="" class="form-control" required>
+
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Time Done</label>
+            <input type="time" name="time_done" id="" class="form-control" required>
+            <input type="hidden" name="date_set" id="" class="form-control" value="{{ details.sr_date_set}}">
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Hours</label>
+            <input type="number" name="hours" id="" step="0.25" min="0.25" class="form-control" required>
+            
+          </div>
+
+          {% if (details.sr_rqst == 'Hardware Request') or (details.sr_rqst == 'Software Request') or (details.sr_rqst == 'Renewal License') %}
+
+          <div class="form-group">
+            <label for="" class="col-form-label">PRIF #</label>
+            <input type="text" name="sr_prif" id="" class="form-control" required>
+          </div>
+
+          {% endif %}
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="DoneCPR" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post" autocomplete="off">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+          <input type="hidden" name="endorse_to" value="{{ details.sr_rqstr }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action : Done</label>
+            <input type="hidden" name="action" value="Done">
+
+            <input type="hidden" name="process" value="CPR">
+          </div>
+
+          <div class="form-group">
+            <input type="hidden" name="num_affected" id="" class="form-control" value="{{ details.sr_num_affected}}">
+            <label for="" class="col-form-label">Date Done</label>
+            <input type="text" name="date_done" id="" class="form-control" required>
+
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Time Done</label>
+            <input type="time" name="time_done" id="" class="form-control" required>
+            <input type="hidden" name="date_set" id="" class="form-control" value="{{ details.sr_date_set}}">
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Hours</label>
+            <input type="number" name="hours" id="" step="0.25" min="0.25" class="form-control" required>
+            
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="modal fade" id="DoneDRR" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post" autocomplete="off">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+          <input type="hidden" name="endorse_to" value="{{ details.sr_rqstr }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action : Done</label>
+            <input type="hidden" name="action" value="Done">
+
+            <input type="hidden" name="process" value="DRR">
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Date Done</label>
+            <input type="text" name="date_done" id="" class="form-control" required>
+
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Time Done</label>
+            <input type="time" name="time_done" id="" class="form-control" required>
+            <input type="hidden" name="date_set" id="" class="form-control" value="{{ details.sr_date_set}}">
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="Confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+          <input type="hidden" name="endorse_to" class="form-control" value="{{ details.sr_assigned_to }}">
+
+          <div class="form-group">
+            <input type="hidden" name="action" value="Confirmation">
+
+            <label for="" class="col-form-label"> Status :</label>
+            <select name="user_approval" class="form-control" required>
+              <option value=""></option>
+              <option value="Confirmed">Confirm</option>
+              <option value="Rejected">Reject</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="SRSChecker" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Action : Endorse to SRS Checker</label>
+            <input type="hidden" name="action" value="Endorse to SRS Checker">
+
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> {{ endorse_to }} :</label>
+            <select name="endorse_to" class="form-control">
+              <option value=""></option>
+
+              {% for endorse_info in endorse_list %}
+
+              <option value="{{endorse_info.full_name}}">{{endorse_info.full_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="Assessment" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form action="/endorsements/endorsement" method="post">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">{{ button }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+          <input type="hidden" name="endorse_to" class="form-control" value="{{ details.sr_assigned_to }}">
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+
+          <div class="form-group">
+            <input type="hidden" name="action" value="Assessment">
+
+            <label for="" class="col-form-label"> Status :</label>
+            <select name="assessment" class="form-control" required>
+              <option value=""></option>
+              <option value="Closed">Close</option>
+              <option value="Rejected">Reject</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="endorsement" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+      <form action="/endorsements/endorsement" method="post" id="endorsementFrom" autocomplete="off">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Endorsement</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+          <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+          <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+          <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+          <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+
+          <input type="hidden" name="endorse_by" value="{{ current_user.full_name }}">
+          <input type="hidden" name="endorse_by_pet_id" value="{{ current_user.pet_id }}">
+          <input type="hidden" name="endorse_by_department" value="{{ current_user.department }}">
+          <input type="hidden" name="endorse_status" value="{{ endorse_status }}">
+
+          <div class="form-group">
+            {% if (button == "Acknowledge") %}
+            <input type="hidden" name="endorse_to" class="form-control" value="{{ current_user.full_name }}">
+            <label for="" class="col-form-label">Status : {{ endorse_status }} </label>
+
+            {% elseif (button == "Done") %}
+
+            <input type="hidden" name="endorse_to" class="form-control" value="{{ details.sr_rqstr }}">
+            <label for="" class="col-form-label">Status : {{ endorse_status }} </label>
+
+            <input type="hidden" name="action" value="Endorse to Requestor">
+
+            {% elseif (button == "Confirmation") %}
+            <input type="hidden" name="action" value="Asses">
+
+            <input type="hidden" name="endorse_to" class="form-control" value="{{ details.sr_assigned_to }}">
+
+            <label for="" class="col-form-label"> Status :</label>
+            <select name="user_approval" class="form-control" required>
+              <option value=""></option>
+              <option value="Confirmed">Confirm</option>
+              <option value="Rejected">Reject</option>
+            </select>
+
+            {% elseif (button == "Assessment") %}
+            <input type="hidden" name="action" value="Asses">
+
+            <input type="hidden" name="endorse_to" class="form-control" value="{{ details.sr_assigned_to }}">
+            <label for="" class="col-form-label"> Status :</label>
+            <select name="endorse_status" class="form-control" required>
+              <option value=""></option>
+              <option value="Closed">Close</option>
+              <option value="Rejected">Reject</option>
+            </select>
+            {% else %}
+
+
+            <label for="" class="col-form-label"> Action :</label>
+            <select name="action" class="form-control" required>
+              <option value=""></option>
+              <option value="Endorse to {{ endorse_to }}">Endorse to {{ endorse_to }}</option>
+              {% if endorse_to != "Checker" %}
+              <option value="No Good">No Good</option>
+              {% endif %}
+            </select>
+
+
+            <div class="officer">
+              <label for="" class="col-form-label"> {{ endorse_to }} :</label>
+              <select name="endorse_to" class="form-control">
+                <option value=""></option>
+
+                {% for endorse_info in endorse_list %}
+
+                <option value="{{endorse_info.full_name}}">{{endorse_info.full_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+            {% if details.sr_status == "Done" %}
+            <input type="hidden" name="sr_man_hour" class="form-control" value="{{ details.sr_man_hour }}">
+
+            <input type="hidden" name="sr_down_time" class="form-control" value="{{ details.sr_down_time }}">
+            {% endif %}
+            {% endif %}
+          </div>
+
+          {% if (button == "Done") %}
+
+          {% if details.sr_process == "CSR" %}
+          <div class="form-group">
+            <label for="" class="col-form-label">Allot time (in minutes)</label>
+            <input type="number" name="sr_man_hour" class="form-control">
+          </div>
+          {% elseif details.sr_process == "CPR" %}
+
+          <div class="form-group">
+            <input type="hidden" name="num_affected" id="" class="form-control" value="{{ details.sr_num_affected}}">
+
+            <label for="" class="col-form-label">Date Done</label>
+
+            <input type="text" name="date_done" id="" class="form-control" required>
+
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Time Done</label>
+            <input type="time" name="time_done" id="" class="form-control" required>
+            <input type="hidden" name="date_set" id="" class="form-control" value="{{ details.sr_date_set}}">
+          </div>
+
+          {% elseif details.sr_process == "DRR" %}
+
+          <div class="form-group">
+
+            <label for="" class="col-form-label">Date Done</label>
+            <input type="text" name="date_done" id="" class="form-control" required>
+
+          </div>
+
+          <div class="form-group">
+            <label for="" class="col-form-label">Time Done</label>
+            <input type="time" name="time_done" id="" class="form-control" required>
+            <input type="hidden" name="date_set" id="" class="form-control" value="{{ details.sr_date_set}}">
+          </div>
+
+          {% endif %}
+
+          {% endif %}
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Message/Comment:</label>
+            <textarea name="endorse_msg" id="" cols="30" rows="10" class="form-control" required></textarea>
+          </div>
+
+          {% if (current_user.role == "Service Desk") or (current_user.role == "SRS Checker") %}
+
+          {% if (button == "Assessment") %}
+
+          {% endif %}
+
+          {% if details.sr_process == "CSR" %}
+
+          <div class="form-group">
+            <label for="" class="col-form-label"> Change Date Needed?</label>
+            <div class="site">
+              <input class="" type="radio" name="sr_change_date_needed" id="Yes" value="Yes">
+              <label class="" for="Yes">Yes</label>
+
+              <input class="" type="radio" name="sr_change_date_needed" id="No" value="No">
+              <label class="" for="No">No</label>
+            </div>
+          </div>
+
+          <div class="form-group adjust-date">
+            <label for="" class="col-form-label"> Adjust Date Needed</label>
+            <input type="text" name="sr_adjust_date_needed" id="" class="form-control">
+          </div>
+
+          {% if (details.sr_rqst == 'Hardware Request') or (details.sr_rqst == 'Software Request') or (details.sr_rqst == 'Renewal License') %}
+
+          <div class="form-group">
+            <label for="" class="col-form-label">PRIF #</label>
+            <input type="text" name="sr_prif" id="" class="form-control" required>
+          </div>
+
+          {% endif %}
+
+          {% endif %}
+
+          {% if (details.sr_process == "CPR") and (details.sr_status != "Done") %}
+
+          <div class="form-group">
+            <label for="" class="col-form-label">No. of Affected Users</label>
+            <input type="text" name="sr_num_affected" id="" class="form-control" required>
+          </div>
+
+          {% endif %}
+
+          {% endif %}
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary m-auto loading">Send</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Modify Request</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="system-form">
+          <form action="/requests/update-request" method="POST" autocomplete="off">
+            <div class="user-side">
+              <div class="user-side-label">
+              </div>
+
+              <input type="hidden" name="sr_id" value="{{ details.sr_id }}">
+              <input type="hidden" name="sr_process" value="{{ details.sr_process }}">
+              <input type="hidden" name="sr_number" value="{{ details.sr_number }}">
+              <input type="hidden" name="sr_year" value="{{ details.sr_year }}">
+              <input type="hidden" name="sr_rqstr" value="{{ details.sr_rqstr }}">
+              <input type="hidden" name="sr_rqstr_id" value="{{ details.sr_rqstr_id }}">
+              <input type="hidden" name="sr_rqstr_dprtmnt" value="{{ details.sr_rqstr_dprtmnt }}">
+              <input type="hidden" name="sr_date_request" value="{{ details.sr_date_request }}">
+              <input type="hidden" name="sr_status" value="{{ status }}">
+              <input type="hidden" name="sr_in_charge" value="{{ in_charge }}">
+              <input type="hidden" name="sr_mode" value="Web">
+
+              <div class="user-side-form">
+                <div class="user-side-row">
+                  <div class="div1">
+                    <h6>Requested by</h6>
+                  </div>
+                  <div class="div3">
+                    {{ details.sr_rqstr }}
+                  </div>
+                  <div class="div1">
+                    <h6>Date Request</h6>
+                  </div>
+                  <div class="div1">
+                    <label id="date_request">{{  details.sr_date_request | date('m/d/Y')}}</label>
+                  </div>
+                </div>
+
+                <div class="user-side-row">
+                  <div class="div1">
+                    <h6>Department</h6>
+                  </div>
+                  <div class="div1">
+                    {{ details.sr_rqstr_dprtmnt }}
+                  </div>
+                  <div class="div1">
+                    <h6>Group</h6>
+                  </div>
+                  <div class="div1">
+                    <input type="text" name="sr_grp" class="group-input" value=" {{ details.sr_grp }}">
+                  </div>
+                  <div class="div1">
+                    <h6>Date Needed</h6>
+                  </div>
+                  <div class="div1">
+                    <input type="text" name="sr_date_set" class="date-needed"
+                      value="{{ details.sr_date_set | date('m/d/Y') }}" required>
+                  </div>
+                </div>
+
+                <div class="user-side-row">
+                  <div class="div1">
+                    <h6>Site</h6>
+                  </div>
+                  <div class="div3">
+                    <div class="site">
+
+                      {% if details.sr_site == "HO" %}
+                      <input class="" type="radio" name="sr_site" id="HO" value="HO" checked required>
+                      <label class="" for="HO">Head Office</label>
+                      {% else %}
+                      <input class="" type="radio" name="sr_site" id="HO" value="HO" required>
+                      <label class="" for="HO">Head Office</label>
+                      {% endif %}
+
+                      {% if details.sr_site == "BO" %}
+                      <input class="" type="radio" name="sr_site" id="BO" value="BO" checked required>
+                      <label class="" for="BO">Branch Office</label>
+                      {% else %}
+                      <input class="" type="radio" name="sr_site" id="BO" value="BO" required>
+                      <label class="" for="BO">Branch Office</label>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="div1">
+                    <h6>Local</h6>
+                  </div>
+                  <div class="div1">
+                    <input type="number" name="sr_local" id="" class="local-number" value="{{ details.sr_local }}"
+                      required>
+                  </div>
+                </div>
+
+                <div class="user-side-row">
+                  <div class="div1">
+                    <h6>Request</h6>
+                  </div>
+                  <div class="div3">
+                    <select name="sr_rqst" id="" required>
+                      <option value="{{ details.sr_rqst }}">{{ details.sr_rqst }}</option>
+                      {% for request_list in request %}
+
+                      {% if request_list.request_name == details.sr_rqst%}
+
+                      {% else %}
+
+                      <option value="{{ request_list.request_name }}">{{ request_list.request_name }}</option>
+
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="div1">
+                    <h6>Ip Address</h6>
+                  </div>
+                  <div class="div1">
+                    <input type="text" name="sr_ipadd" class="ip-address" value="{{ details.sr_ipadd }}" required>
+                  </div>
+                </div>
+
+                <div class="user-side-row">
+                  <div class="div6">
+
+                    Description: (Describe what feature, function, equipment or purpose. Explain fully if possible)
+                    <textarea name="sr_dtls" id="" cols="100" rows="5" required>{{ details.sr_dtls }}</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-1">
+                  </div>
+                  <div class="col-lg-4 modify">
+                    <input class="modify" type="radio" name="modify" id="update" value="update" required>
+                    <label class="modify" for="update">Update</label>
+                  </div>
+                  <div class="col-lg-2">
+                  </div>
+                  <div class="col-lg-4 modify">
+                    <input class="modify" type="radio" name="modify" id="cancel" value="cancel" required>
+                    <label class="modify" for="cancel">Delete</label>
+                  </div>
+
+                  <div class="col-lg-1">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4">
+                  </div>
+                  <div class="col-lg-4">
+                    <button class="btn btn-success system-form-button">Submit</button>
+                  </div>
+                  <div class="col-lg-4">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+

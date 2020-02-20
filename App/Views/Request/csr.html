@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}Forms{% endblock %}
+
+{% block body %}
+<style>
+
+</style>
+
+<div class="system-form mt-5">
+
+    <div class="form-name">
+        <h4>Computer System Request</h4>
+    </div>
+
+    <div class="user-side">
+        <div class="user-side-label">
+            User side
+        </div>
+        
+        <input type="hidden" name="sr_process" value="CSR">
+        <input type="hidden" name="sr_year" value="{{ 'now'| date('y') }}">
+        <input type="hidden" name="sr_rqstr" value="{{ current_user.full_name }}">
+        <input type="hidden" name="sr_rqstr_id" value="{{ current_user.pet_id }}">
+        <input type="hidden" name="sr_rqstr_dprtmnt" value="{{ current_user.department }}">
+        <input type="hidden" name="sr_date_request" value="{{ 'now'| date('Y-m-d') }}">
+        <input type="hidden" name="sr_mode" value="Web">
+
+        <div class="user-side-form">
+            <div class="user-side-row">
+                <div class="div1">
+                    <h6>Requested by</h6>
+                </div>
+                <div class="div3">
+                    {{ details.sr_rqstr }}
+                </div>
+                <div class="div1">
+                    <h6>Date Requested</h6>
+                </div>
+                <div class="div1">
+                    <label for="">{{ details.sr_date_request| date('m/d/Y')}}</label>
+                </div>
+            </div>
+
+            <div class="user-side-row">
+                <div class="div1">
+                    <h6>Department</h6>
+                </div>
+                <div class="div1">
+                    {{ details.sr_rqstr_dprtmnt }}
+                </div>
+                <div class="div1">
+                    <h6>Group</h6>
+                </div>
+                <div class="div1">
+                    {{ details.sr_grp }}
+                </div>
+                <div class="div1">
+                    <h6>Date Needed</h6>
+                </div>
+                <div class="div1">
+                    {{ details.sr_date_set| date('m/d/Y')}}
+                </div>
+            </div>
+
+            <div class="user-side-row">
+                <div class="div1">
+                    <h6>Site</h6>
+                </div>
+                <div class="div3">
+                    {{ details.sr_site }}
+                </div>
+                <div class="div1">
+                    <h6>Local</h6>
+                </div>
+                <div class="div1">
+                    {{ details.sr_local }}
+                </div>
+            </div>
+
+            <div class="user-side-row">
+                <div class="div1">
+                    <h6>Request</h6>
+                </div>
+                <div class="div3">
+                    {{ details.sr_rqst }}
+                </div>
+                <div class="div1">
+                    <h6>Ip Address</h6>
+                </div>
+                <div class="div1">
+                    {{ details.sr_ipadd }}
+                </div>
+            </div>
+
+            <div class="user-side-row">
+                <div class="div4">
+                    {{ details.sr_dtls }}
+                </div>
+
+                <div class="div2">
+                    <div class="signatures">
+                        <div class="sig-box text-center">
+                            <!--
+                                            Requestor to Approver Signature/Stamp
+                                        -->
+                            <div class="sig-label">
+                                <h6>Approver</h6>
+                            </div>
+                            <div class="signature">
+                                {% if approver_sig %}
+
+                                <div class="circle ">
+                                    <div class="dept text-center">PET {{ approver_sig['ds_crtr_dept'] }}</div>
+                                    <div class="sig-divider"></div>
+                                    <div class="text-center">
+                                        {{ approver_sig['ds_crtd_date'] | date("m/d/Y") }}
+                                    </div>
+                                    <div class="sig-divider"></div>
+                                    <div class="text-center"> {{ approver_sig['ds_crtr']}}</div>
+                                </div>
+
+                                <div class="code">{{ approver_sig['ds_no'] }}</div>
+
+                                {% endif %}
+
+                            </div>
+                            <div class="sig-signdate">
+                                Sign/Date
+                            </div>
+                            <div class="sig-signdate">
+                                Manager
+                            </div>
+                        </div>
+                        <div class="sig-box text-center">
+                            <!--
+                                                Requestor to Checker Signature/Stamp
+                                            -->
+                            <div class="sig-label">
+                                <h6>Checker</h6>
+                            </div>
+                            <div class="signature">
+                                {% if checker_sig %}
+
+                                <div class="circle ">
+                                    <div class="dept text-center">PET {{ checker_sig['ds_crtr_dept'] }}</div>
+                                    <div class="sig-divider"></div>
+                                    <div class="text-center">
+                                        {{ checker_sig['ds_crtd_date'] | date("m/d/Y") }}
+                                    </div>
+                                    <div class="sig-divider"></div>
+                                    <div class="text-center"> {{ checker_sig['ds_crtr']}}</div>
+                                </div>
+
+                                <div class="code">{{ checker_sig['ds_no'] }}</div>
+
+                                {% endif %}
+                            </div>
+                            <div class="sig-signdate">
+                                Sign/Date
+                            </div>
+                            <div class="sig-signdate">
+                                Supervisor
+                            </div>
+                        </div>
+
+                        <div class="sig-box text-center">
+                            <!--
+                                                    Requestor to End User Signature/Stamp
+                                                -->
+                            <div class="sig-label">
+                                <h6>Prepared</h6>
+                            </div>
+                            <div class="signature">
+                                {% if prepared_sig %}
+
+                                <div class="circle ">
+                                    <div class="dept text-center">PET {{ prepared_sig['ds_crtr_dept'] }}</div>
+                                    <div class="sig-divider"></div>
+                                    <div class="text-center">
+                                        {{ prepared_sig['ds_crtd_date'] | date("m/d/Y") }}
+                                    </div>
+                                    <div class="sig-divider"></div>
+                                    <div class="text-center"> {{ prepared_sig['ds_crtr']}}</div>
+                                </div>
+
+                                <div class="code">{{ prepared_sig['ds_no'] }}</div>
+
+                                {% endif %}
+                            </div>
+                            <div class="sig-signdate">
+                                Sign/Date
+                            </div>
+                            <div class="sig-signdate">
+                                End-user
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    {% include '/Request/mis-side.html'%}
+
+    {% if details.sr_rqst == "Account Request" %}
+    {% include '/Request/AccountRequest.html'%}
+    {% endif %}
+
+    {% if details.sr_rqst == "Access Request" %}
+    {% include '/Request/AccessRequest.html'%}
+    {% endif %}
+</div>
+
+
+
+<!-- User Bottons-->
+{% include '/Request/buttons.html'%}
+
+{% include '/Request/endorse.html'%}
+
+{% include '/Request/logs.html'%}
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+    $(document).ready(function () {
+        let id, start, limit, page, pages, page_list, timeout;
+        start = 0;
+        limit = 10;
+
+        let sr_id = "{{ details.sr_id}}";
+        let controllerData = '/requests/viewLogData';
+        let controllerPage = '/requests/viewLogPage';
+
+        $('#endorsementForm').validate({
+            rules: {
+                name: 'required'
+            }
+        })
+
+        $('input[name=sr_adjust_date_needed]').datepicker({
+            beforeShowDay: $.datepicker.noWeekends,
+            minDate: 0
+        });
+
+        $('button.logs').click(function () {
+
+            
+            console.log(sr_id);
+
+
+            if (id == null) {
+                let id = 1;
+                getData(id, start, limit, sr_id, controllerData);
+                getPage(id, start, limit, sr_id, controllerPage);
+            }
+        });
+
+        $(document).on('click', '.page-link', function () {
+
+
+            id = $(this).data('page');
+            $('tbody').empty();
+            getData(id, start, limit, sr_id, controllerData);
+            getPage(id, start, limit, sr_id, controllerPage);
+            $('.page_list').empty();
+            $('.table-list').show();
+            $('.view-data').hide();
+        });
+    });
+
+</script>
+
+
+{% endblock %}

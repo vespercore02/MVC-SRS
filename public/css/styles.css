@@ -1,0 +1,613 @@
+
+html{
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100%;
+    font-size: 11pt;
+    font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+}
+body{
+    background-color: #e7e7e7;
+    margin-bottom: 120px;
+}
+
+@media print {
+
+    html,
+    body {
+        /*changing width to 100% causes huge overflow and wrap*/
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #FFF;
+        font-size: 9pt;
+        font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+    }
+
+    nav,
+    .footer,
+    .endorsement-button {
+        display: none !important;
+    }
+
+    @page {
+        height:100%;
+        margin-top: 15px;
+    }
+
+    .signature{
+        margin: auto;
+        padding: 5px;
+        width: 80px;
+        height: 100px;
+    }
+    .circle {
+        padding-top: 9px;
+        border:2px solid red;
+        height:80px;
+        border-radius:50%;
+        -moz-border-radius:50%;
+        -webkit-border-radius:50%;
+        width:80px;
+        font-size: 9px;
+        }
+    .sig-divider{
+        margin: 3px 0;
+        height:2px;
+        background-color: red;
+        width: 75px;
+    }
+    .code {
+        font-size: 10px;
+        text-align: center;
+    }
+    
+}
+
+.flash {
+    margin: 30px;
+    height: 50px;
+}
+
+.login{
+    margin-top: 160px;
+}
+
+.bg-0{
+    background-color: #3f72af;
+    color: #dbe2ef;
+}
+
+.bg-1{
+    background-color: #dbe2ef;
+    color: #112d4e;
+}
+
+.bg-2{
+    background-color: #112d4e;
+    color: #f9f7f7;
+}
+
+.bg-3{
+    background-color: #3f72af;
+    color: #f9f7f7;
+}
+
+.bg-4{
+    background-color: #f9f7f7;
+    color: #3f72af;
+}
+
+.bg-5{
+    background-color: #dbe2ef;
+    color: #3f72af;
+}
+
+
+.footer {
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    background-color: #3f72af;
+    color: #dbe2ef;
+    right: 0;
+    left: 0;
+}
+.alert {
+    border: 1px solid #ccc;
+    padding:  6px;
+}
+.alert-info {
+    background-color: #d9edf7;
+}
+.alert-success {
+    background-color: #dff0d8;
+}
+.alert-warning {
+    background-color: #fcf8e3;
+}
+
+.container-fluid{
+    max-width: 1500px;
+}
+
+/*
+    Signature
+*/
+.signature{
+    margin: auto;
+    padding: 14px;
+    width: 120px;
+    height: 130px;
+}
+.circle {
+    padding-top: 12px;
+    border:2px solid red;
+    height:90px;
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+    width:90px;
+    font-size: 10px;
+    }
+.sig-divider{
+    margin: 3px 0;
+    height:2px;
+    background-color: red;
+    width: 85px;
+}
+.code {
+    font-size: 10px;
+    text-align: center;
+}
+
+/*
+    Forms Design
+*/
+
+/*
+    Notification
+*/
+
+.notif {
+    top: 55px;
+    right: -25px;
+    width: 350px;
+    color: #292b2c;
+    padding: 4px;
+}
+
+.notif:before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    top: -11.5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15);
+    background-clip: padding-box;
+    right: 25px;
+}
+
+.notification {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+}
+.notification .badges {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    margin: auto;
+    padding-right: 1.5px;
+}
+
+.notif-header {
+    display: block;
+    height: 34px;
+    width: 100%;
+    margin-top: 7px;
+    text-align: center;
+}
+
+.notif-body {
+    max-height: 400px;
+    overflow: auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding-left: 0;
+}
+
+.notif-list {
+    max-height: 800px;
+    overflow: auto;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding-left: 0;
+}
+
+.notif-list li:hover,
+.notif-body li:hover {
+    color: #111;
+    text-decoration: none;
+    background-color: #BDBDBD;
+}
+
+.notif-list li,
+.notif-body li {
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    font-size: 1.1em;
+    display: inline-block;
+    border-bottom: 1px solid #6B6B6B;
+}
+.notif-list li:last-child ,
+.notif-body li:last-child {
+    border-bottom: 0px solid #000;
+}
+
+.notif-body-content {
+    display: flex;
+    width: 100%;
+    cursor: default;
+}
+
+.notif-icon {
+    display: block;
+    width: 15%;
+    margin: auto;
+    text-align: center;
+    color: #3f72af;
+}
+
+.notif-info {
+    width: 85%;
+    margin: auto;
+}
+
+.notif-time {
+    padding-top: 5px;
+}
+
+.notif-footer {
+    display: block;
+    height: 34px;
+    width: 100%;
+    margin-top: 7px;
+    text-align: center;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+/*
+    Request form Dropdown
+*/
+
+
+.request-forms {
+    top: 55px;
+    right: -18px;
+    width: 350px;
+    color: #292b2c;
+    padding: 4px;
+}
+
+.request-forms:after {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    top: -11.5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-color: rgba(0, 0, 0, 0.15);
+    background-clip: padding-box;
+    right: 25px;
+}
+
+
+.request-forms ul li {
+    width: 100%;
+    margin: 0px;
+    border: 0px;
+    padding: 0;
+}
+
+.request-forms ul li div {
+    padding: 0;
+}
+
+.request-forms ul li div a {
+    padding: 15px;
+    height: 70px;
+    display: block;
+    color: #3f72af;
+}
+
+.request-forms ul li div a i {
+    padding: 10px 15px;
+}
+
+.request-forms ul li div a:hover {
+    padding: 15px;
+    text-decoration: none;
+    background-color: #dbe2ef;
+    color: #112d4e;
+}
+
+.request-forms ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+
+/* CSR FORM */
+
+
+
+.system-form {
+    background-color: white;
+    border: 1px solid black;
+}
+
+.form-name {
+    margin: 0px;
+}
+
+.user-side,
+.mis-side {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.user-side-label,
+.mis-side-label {
+    width: 2%;
+    writing-mode: tb-rl;
+    transform: rotate(-180deg);
+    border-left: 1px solid black;
+    padding: 0 2px;
+    text-align: center;
+}
+
+.user-side-form,
+.mis-side-form {
+    width: 98%;
+}
+
+
+.signatures {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: -5px 0;
+}
+
+.sig-box {
+    width: 33.33333%;
+    border-right: 1px solid black;
+}
+
+.signatures .sig-label {
+    border-bottom: 1px solid black;
+}
+
+.signatures .sig-signdate {
+    border-top: 1px solid black;
+}
+
+.button-area {
+    width: 100%;
+    padding: 10px 45%;
+}
+
+.system-form-button {
+    width: 100%;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+.greenie {
+    border: 1px solid #b9df90f3;
+    background-color: #BDEE88;
+
+}
+
+.redie {
+    border: 1px solid #ee888bec;
+    background-color: #EE888C;
+
+}
+
+.grayie {
+    border: 1px solid #cececed8;
+    background-color: #CECECE;
+
+}
+
+.user-side-row,
+.mis-side-row {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.system-form div.div1 {
+    width: 16.666%;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 5px 0;
+}
+
+.system-form div.div2 {
+    width: 33.33%;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 5px 0;
+
+}
+
+.system-form div.div3 {
+    width: 49.998%;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 5px 0;
+
+}
+
+.system-form div.div4 {
+    width: 66.666%;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 5px 0;
+
+}
+
+.system-form div.div5 {
+    width: 83.333%;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 5px 0;
+
+}
+
+.system-form div.div6 {
+    width: 99.96%;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 5px 0;
+
+}
+.system-form div:last-child {
+    border-right: 0;
+}
+
+.system-form div:last-child {
+    border-bottom: 0;
+}
+
+.system-form label {
+    padding: 0;
+    margin: 0;
+}
+
+.system-form select,
+.system-form input[type=text],
+.system-form input[type=number],
+.system-form input[type=date],
+.system-form input[type=time] {
+    width: 95%;
+    text-align: center;
+    border: 0;
+    border-bottom: 1px solid black;
+}
+
+.system-form input[type=radio] {
+    vertical-align: middle;
+    margin: 0 15px;
+}
+
+.system-form textarea {
+    width: 95%;
+    resize: none;
+    border: 0;
+}
+
+.system-form .site input[type="radio"],
+.system-form .overwrite input[type="radio"],
+.site input[type="radio"],
+.modify input[type="radio"],
+.request input[type="radio"] {
+    display: none;
+  }
+  
+  .system-form .site label,
+  .system-form .overwrite label,
+  .site label,
+  .modify label,
+  .request label{
+    display: inline-block;
+    margin: 5px 50px;
+    padding: 0 20px;
+    font-family: Arial;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  .system-form .site input[type="radio"]:checked+label,
+  .system-form .overwrite input[type="radio"]:checked+label,
+  .site input[type="radio"]:checked+label,
+  .modify input[type="radio"]:checked+label,
+  .request input[type="radio"]:checked+label,
+  .site label.checked {
+      border: 2px solid red;
+      border-radius: 50%;
+      margin: 0 48px;
+  }
+
+
+  .system-request input[type="checkbox"]{
+    display: none;
+    margin: 5px 0;
+  }
+
+  .system-request label {
+    margin: 5px 10px;
+    padding: 2px 10px;
+    font-family: Arial;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .system-request input[type="checkbox"]:checked+label,
+  .system-request label.checked,
+  .request label.checked  {
+    border: 2px solid red;
+    border-radius: 50%;
+    margin: 3px 8px;
+}
+
+
+  .system-form h6 {
+      padding-top: 4px;
+      margin: 0;
+  }
+  
